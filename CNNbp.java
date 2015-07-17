@@ -35,11 +35,11 @@ public class CNNbp extends Structure {
         double[][] od = new double[convnet.o.length][convnet.o[0].length];
         for (int i = 0; i < convnet.o.length; i++) {
             for (int j = 0; j < convnet.o[0].length; j++) {
-                if(convnet.o[i][j]>0) {
+                if(convnet.o[i][j]>0.0) {
                     od[i][j] = convnet.e[i][j];
                 }
                 else {
-                    od[i][j]=0;
+                    od[i][j]=0.0;
                 }
             }
         }
@@ -88,8 +88,8 @@ public class CNNbp extends Structure {
         int b = ((double[][][]) layer_last.a.get(0).a_list.get(0))[0].length;
         int c = ((double[][][]) layer_last.a.get(0).a_list.get(0))[0][0].length;
         int outputmaps = layer_last.a.get(0).a_list.size();
-        D Dl = new D();
 
+        D Dl = new D();
         if (convnet.layers.get(n-1).d.isEmpty()) {
             convnet.layers.get(n-1).d.add(0, Dl);
         }else convnet.layers.get(n-1).d.set(0,Dl);
@@ -141,21 +141,12 @@ public class CNNbp extends Structure {
                                 }
                             }
                         }
-                        //d_current_layer=ReLU'(a.*expand(d_previous_layer)/scale^2)
-                        double[][][] product_1 = new double[size_a1][size_a2][size_a3];
-                        for (int k = 0; k < size_a3; k++) {
-                            for (int l = 0; l < size_a2; l++) {
-                                for (int m = 0; m < size_a1; m++) {
-                                    product_1[m][l][k] = ((double[][][]) convnet.layers.get(i).a.get(0).a_list.get(j))[m][l][k] * expand[m][l][k]/((double) sub_scale * sub_scale);
-                                }
-                            }
-                        }
-
+                        //d_current_layer=ReLU'(a).*expand(d_previous_layer)/scale^2)
                         double[][][] derivative = new double[size_a1][size_a2][size_a3];
                         for (int k = 0; k < size_a3; k++) {
                             for (int l = 0; l < size_a2; l++) {
                                 for (int m = 0; m < size_a1; m++) {
-                                    if (product_1[m][l][k]>0) {
+                                    if (((double[][][])convnet.layers.get(i).a.get(0).a_list.get(j))[m][l][k]>0) {
                                         derivative[m][l][k] = 1.0;
                                     }
                                     else {
@@ -164,7 +155,17 @@ public class CNNbp extends Structure {
                                 }
                             }
                         }
-                        convnet.layers.get(i).d.get(0).d_list.add(j, derivative);
+
+                        double[][][] product_1 = new double[size_a1][size_a2][size_a3];
+                        for (int k = 0; k < size_a3; k++) {
+                            for (int l = 0; l < size_a2; l++) {
+                                for (int m = 0; m < size_a1; m++) {
+                                    product_1[m][l][k] = derivative[m][l][k] * expand[m][l][k]/((double) sub_scale * sub_scale);
+                                }
+                            }
+                        }
+
+                        convnet.layers.get(i).d.get(0).d_list.add(j, product_1);
                     }
                     else {
                         convnet.layers.get(i).d.get(0).d_list.add(j, zeros);

@@ -2,8 +2,6 @@ import org.math.plot.Plot2DPanel;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by ziyihua on 17/07/15.

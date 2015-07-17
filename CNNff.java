@@ -88,10 +88,10 @@ public class CNNff extends Structure {
                         for (int k = 0; k < a_new; k++) {
                             for (int l = 0; l < b_new; l++) {
                                 for (int o = 0; o < c_new; o++) {
-                                    if (z[k][l][o]+layer_current.b[j]>0) {
+                                    if (z[k][l][o]+layer_current.b[j]>0.0) {
                                         m[k][l][o] = z[k][l][o] + layer_current.b[j];
                                     } else {
-                                        m[k][l][o] = 0;
+                                        m[k][l][o] = 0.0;
                                     }
                                 }
                             }
@@ -143,9 +143,9 @@ public class CNNff extends Structure {
                         }
                     }
                     //get only one row and column in each two, resulting in reducing the size to its half
-                    double[][][] m = new double[(a_new+1)/2][(b_new+1)/2][c];
-                    for (int k = 0; k < (a_new+1)/2; k++) {
-                        for (int l = 0; l < (b_new+1)/2; l++) {
+                    double[][][] m = new double[a/2][b/2][c];
+                    for (int k = 0; k < a/2; k++) {
+                        for (int l = 0; l < b/2; l++) {
                             for (int o = 0; o < c; o++) {
                                 m[k][l][o]=z[k*2][l*2][o];
                             }
@@ -201,9 +201,9 @@ public class CNNff extends Structure {
         double[][] o = new double[d][c];
         for (int i = 0; i < d; i++) {
             for (int j = 0; j < c; j++) {
-                if(product[i][j]>0)
+                if(product[i][j]>0.0)
                     o[i][j]=product[i][j];
-                else o[i][j]=0;
+                else o[i][j]=0.0;
             }
         }
         convnet.o=o;

@@ -109,7 +109,7 @@ public class SetUp extends Structure{
             for (int j = 0; j < fvnum; j++) {
                 Random r = new Random();
                 double randomValue = r.nextDouble();
-                ffw[i][j]=(randomValue - 0.5) * 2 * Math.sqrt(6.0 / (onum + fvnum));
+                ffw[i][j]=randomValue * Math.sqrt(6.0 / (onum + fvnum));
                 //ffw[i][j]=randomValue* Math.sqrt(6.0 / (onum + fvnum));
             }
         }

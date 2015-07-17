@@ -87,7 +87,20 @@ public class CNNtrain extends Structure {
 
 
         }
+
         convnet.rL=rl;
+
+        for (int k = 1; k < convnet.layers.size(); k++) {
+            if ("c".equals(architecture[0][k])){
+                int num_maps = convnet.layers.get(k).outmaps;
+                int[] indx = new int[num_maps];
+                for (int l = 0; l < indx.length; l++) {
+                    indx[l]=1;
+                }
+                convnet.layers.get(k).used_maps=indx;
+            }
+        }
+
         return convnet;
 
     }
