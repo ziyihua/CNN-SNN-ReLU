@@ -9,6 +9,7 @@ public class SetUp extends Structure{
     }
 
     public static network SetUp(String[][] architecture) {
+        Random r = new Random(0);
         network convnet = new network();
         int inputmap = 1;
         double mapsize = 28;
@@ -70,7 +71,7 @@ public class SetUp extends Structure{
                         double[][] m = new double[c_layer.kernelsize][c_layer.kernelsize];
                         for (int y = 0; y < c_layer.kernelsize; y++) {
                             for (int z = 0; z < c_layer.kernelsize; z++) {
-                                Random r = new Random();
+                                //Random r = new Random();
                                 double randomValue = r.nextDouble();
                                 m[y][z] = (randomValue - 0.5) * 2 * Math.sqrt(6.0 / (fan_in + fan_out));
                             }
@@ -107,7 +108,7 @@ public class SetUp extends Structure{
         double[][] ffw = new double[onum][(int) fvnum];
         for (int i = 0; i < onum; i++) {
             for (int j = 0; j < fvnum; j++) {
-                Random r = new Random();
+                //Random r = new Random();
                 double randomValue = r.nextDouble();
                 ffw[i][j]=randomValue * Math.sqrt(6.0 / (onum + fvnum));
                 //ffw[i][j]=randomValue* Math.sqrt(6.0 / (onum + fvnum));

@@ -12,11 +12,12 @@ public class CNNff extends Structure {
 
         int n = convnet.layers.size();
 
+        Random r = new Random(0);
         //randomly dropout some features of the input images
         for (int i = 0; i < batch_x.length; i++) {
             for (int j = 0; j < batch_x[0].length; j++) {
                 for (int k = 0; k < batch_x[0][0].length; k++) {
-                    Random r = new Random();
+                    //Random r = new Random();
                     double randomValue = r.nextDouble();
                     if(randomValue<convnet.first_layer_dropout)
                         batch_x[i][j][k]=0;

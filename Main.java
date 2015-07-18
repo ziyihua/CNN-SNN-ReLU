@@ -1,15 +1,53 @@
 import org.math.plot.Plot2DPanel;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
+import java.util.Random;
 
 /**
  * Created by ziyihua on 17/07/15.
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
 
+        /*Structure.network e = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("cnn_098.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            e = (Structure.network) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("network not found");
+            c.printStackTrace();
+            return;
+        }
+        System.out.println("Deserialized network...");
+
+        double[] loss_e = new double[e.rL.length];
+        for (int i = 0; i < e.rL.length; i++) {
+            loss_e[i]=e.rL[i];
+        }
+        double[] indx_e = new double[loss_e.length];
+        for (int i = 0; i < loss_e.length; i++) {
+            indx_e[i] = i;
+        }
+        Plot2DPanel plot_e = new Plot2DPanel();
+        plot_e.addLegend("SOUTH");
+
+        // add a line plot to the PlotPanel
+        plot_e.addLinePlot("Squared Loss", indx_e, loss_e);
+
+        // put the PlotPanel in a JFrame like a JPanel
+        JFrame frame_e = new JFrame("a plot panel");
+        frame_e.setSize(600, 600);
+        frame_e.setContentPane(plot_e);
+        frame_e.setVisible(true);
+*/
 
         //Layers of CNN
         //row 0 is type
@@ -55,7 +93,7 @@ public class Main {
         //parameters
         double alpha = 1;
         int batchsize = 50;
-        int numepochs = 1;
+        int numepochs = 3;
         int learn_bias = 0;
         double dropout = 0.0;
 
@@ -76,7 +114,22 @@ public class Main {
         test_x = ImportFile.getImage("t10k-images-idx3-ubyte");
 
         double rate = CNNtest.CNNtest(architecture,convnet,test_x,test_y);
+        convnet.acc = rate;
         System.out.println(rate);
+
+        try
+        {
+            FileOutputStream fileOut =
+                    new FileOutputStream("/tmp/cnn.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(convnet);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /tmp/cnn.ser");
+        }catch(IOException i)
+        {
+            i.printStackTrace();
+        }
 
         Plot2DPanel plot = new Plot2DPanel();
         plot.addLegend("SOUTH");

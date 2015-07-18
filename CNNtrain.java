@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -16,11 +17,18 @@ public class CNNtrain extends Structure {
             throw new NumberFormatException();
         }
 
+        Random r = new Random(0);
+
         //array storing squared loss
         double[] rl = new double[numepochs*numbatches];
         int loss_index=0;
+        long[][] time = new long[2][numepochs];
 
         for (int i = 0; i < numepochs; i++) {
+
+            if(i==1 && rl[loss_index-1]>0.5){
+                throw new NumberFormatException();
+            }
 
             System.out.println("Epoch "+i+" / "+numepochs);
 
@@ -52,7 +60,7 @@ public class CNNtrain extends Structure {
                         int num_maps = convnet.layers.get(k).outmaps;
                         int[] indx = new int[num_maps];
                         for (int l = 0; l < indx.length; l++) {
-                            Random r = new Random();
+                            //Random r = new Random();
                             double randomValue = r.nextDouble();
                             if (randomValue>dropout){
                                 indx[l]=1;
@@ -83,12 +91,14 @@ public class CNNtrain extends Structure {
             long elapsed = end - start;
             long minutes = elapsed / (1000 * 60);
             long seconds = (elapsed / 1000) - (minutes * 60);
+            time[0][i]=minutes;
+            time[1][i]=seconds;
             System.out.println("Epoch"+" "+i+" finished:"+" " + minutes + " m " + seconds + " s ");
-
 
         }
 
         convnet.rL=rl;
+        convnet.time=time;
 
         for (int k = 1; k < convnet.layers.size(); k++) {
             if ("c".equals(architecture[0][k])){

@@ -1,3 +1,6 @@
+import org.math.plot.utils.Array;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,7 +9,7 @@ import java.util.List;
  */
 public class Structure {
 
-    public static class network {
+    public static class network implements Serializable {
         public network() {
             layers = new ArrayList<LAYER>();
         }
@@ -15,7 +18,7 @@ public class Structure {
         double[] ffb;
         double[][] ffW;
         double[] rL;
-        double[] acc;
+        double acc;
         double[][] fv;
         double[][] o;
         double[][] e;
@@ -25,9 +28,16 @@ public class Structure {
         double[][] dffW;
         double[] dffb;
         double first_layer_dropout;
+        long[][] time;
+        double[][] sum_fv;
+        double[][] omem;
+        double[][] o_refrac_end;
+        double[][] o_sum_spikes;
+        double[] spikes;
+        int[][] o_spikes;
     }
 
-    public static class LAYER {
+    public static class LAYER implements Serializable{
         public LAYER() {
             k = new ArrayList<weights>();
             a = new ArrayList<A>();
@@ -44,11 +54,14 @@ public class Structure {
         List<A> a;
         List<D> d;
         List<DK> dk;
+        List<M> m;
+        List<R> r;
+        List<S> s;
         double[] db;
         int[] used_maps;
     }
 
-    public static class weights {
+    public static class weights implements Serializable{
         public weights() {
             k_list = new ArrayList();
         }
@@ -56,7 +69,30 @@ public class Structure {
         ArrayList k_list;
     }
 
-    public static class A {
+    public static class S implements Serializable {
+        public S() {
+            s_list = new ArrayList();
+        }
+
+        ArrayList s_list;
+    }
+
+    public static class R implements Serializable{
+        public R(){
+            r_list = new ArrayList();
+        }
+        ArrayList r_list;
+    }
+
+    public static class M implements Serializable{
+        public M() {
+            m_list = new ArrayList();
+        }
+
+        ArrayList m_list;
+    }
+
+    public static class A implements Serializable{
         public A() {
             a_list = new ArrayList();
         }
@@ -64,7 +100,7 @@ public class Structure {
         ArrayList a_list;
     }
 
-    public static class D {
+    public static class D implements Serializable{
         public D() {
             d_list = new ArrayList();
         }
@@ -72,7 +108,7 @@ public class Structure {
         ArrayList d_list;
     }
 
-    public static class DK {
+    public static class DK implements Serializable{
         public DK() {
             dk_list = new ArrayList();
         }
