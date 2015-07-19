@@ -11,9 +11,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        /*Structure.network e = null;
+       /* Structure.network e = null;
         try {
-            FileInputStream fileIn = new FileInputStream("cnn_098.ser");
+            FileInputStream fileIn = new FileInputStream("cnn_9776.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             e = (Structure.network) in.readObject();
             in.close();
