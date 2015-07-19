@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jmathplot" level="project" />
+    <orderEntry type="library" name="VisualVMLauncher" level="project" />
   </component>
 </module>

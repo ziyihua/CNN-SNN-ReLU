@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="VisualVMLauncher">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/VisualVMLauncher.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

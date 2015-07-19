@@ -10,45 +10,6 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
-       /* Structure.network e = null;
-        try {
-            FileInputStream fileIn = new FileInputStream("cnn_9776.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            e = (Structure.network) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("network not found");
-            c.printStackTrace();
-            return;
-        }
-        System.out.println("Deserialized network...");
-
-        double[] loss_e = new double[e.rL.length];
-        for (int i = 0; i < e.rL.length; i++) {
-            loss_e[i]=e.rL[i];
-        }
-        double[] indx_e = new double[loss_e.length];
-        for (int i = 0; i < loss_e.length; i++) {
-            indx_e[i] = i;
-        }
-        Plot2DPanel plot_e = new Plot2DPanel();
-        plot_e.addLegend("SOUTH");
-
-        // add a line plot to the PlotPanel
-        plot_e.addLinePlot("Squared Loss", indx_e, loss_e);
-
-        // put the PlotPanel in a JFrame like a JPanel
-        JFrame frame_e = new JFrame("a plot panel");
-        frame_e.setSize(600, 600);
-        frame_e.setContentPane(plot_e);
-        frame_e.setVisible(true);
-*/
-
         //Layers of CNN
         //row 0 is type
         String[][] architecture = new String[3][5];
@@ -63,8 +24,8 @@ public class Main {
         architecture[1][3] = "5";
         architecture[1][4] = "2";
         //row 2 is number of output maps for convolutional layer
-        architecture[2][1] = "16";
-        architecture[2][3] = "16";
+        architecture[2][1] = "6";
+        architecture[2][3] = "12";
 
         Structure.network convnet = new Structure.network();
         convnet = SetUp.SetUp(architecture);
@@ -93,7 +54,7 @@ public class Main {
         //parameters
         double alpha = 1;
         int batchsize = 50;
-        int numepochs = 3;
+        int numepochs = 1;
         int learn_bias = 0;
         double dropout = 0.0;
 
@@ -113,11 +74,43 @@ public class Main {
         double[][][] test_x;
         test_x = ImportFile.getImage("t10k-images-idx3-ubyte");
 
-        double rate = CNNtest.CNNtest(architecture,convnet,test_x,test_y);
-        convnet.acc = rate;
-        System.out.println(rate);
+        int[][] test_y_new = new int[10][test_y.length];
+        for (int i = 0; i < test_y.length ; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (test_y[i]==j){
+                    test_y_new[j][i]=1;
+                }else {
+                    test_y_new[j][i]=0;
+                }
+            }
+        }
 
-        try
+        int[][] test_y_new_s=new int[10][10000];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10000; j++) {
+                test_y_new_s[i][j]=test_y_new[i][j];
+            }
+        }
+
+        int[] test_y_s = new int[10000];
+        for (int i = 0; i < 10000; i++) {
+            test_y_s[i]=test_y[i];
+        }
+
+        double[][][] test_x_s = new double[28][28][10000];
+        for (int i = 0; i < 28; i++) {
+            for (int j = 0; j < 28; j++) {
+                for (int k = 0; k < 10000; k++) {
+                    test_x_s[i][j][k]=test_x[i][j][k];
+                }
+            }
+        }
+
+        /*double rate = CNNtest.CNNtest(architecture,convnet,test_x,test_y);
+        convnet.acc = rate;
+        System.out.println(rate);*/
+
+        /*try
         {
             FileOutputStream fileOut =
                     new FileOutputStream("/tmp/cnn.ser");
@@ -142,5 +135,44 @@ public class Main {
         frame.setSize(600, 600);
         frame.setContentPane(plot);
         frame.setVisible(true);
+
+        Structure.network convnet = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("cnn_9809.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            convnet = (Structure.network) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("network not found");
+            c.printStackTrace();
+            return;
+        }
+        System.out.println("Deserialized network...");*/
+
+        convnet = Convlifsim.Convlifsim(convnet,test_x_s,test_y_new_s,test_y_s,0.000,1.0,0.001,0.020,0.001,1000);
+
+        /*double[] loss_e = new double[e.rL.length];
+        for (int i = 0; i < e.rL.length; i++) {
+            loss_e[i]=e.rL[i];
+        }
+        double[] indx_e = new double[loss_e.length];
+        for (int i = 0; i < loss_e.length; i++) {
+            indx_e[i] = i;
+        }
+        Plot2DPanel plot_e = new Plot2DPanel();
+        plot_e.addLegend("SOUTH");
+
+        // add a line plot to the PlotPanel
+        plot_e.addLinePlot("Squared Loss", indx_e, loss_e);
+
+        // put the PlotPanel in a JFrame like a JPanel
+        JFrame frame_e = new JFrame("a plot panel");
+        frame_e.setSize(600, 600);
+        frame_e.setContentPane(plot_e);
+        frame_e.setVisible(true);*/
     }
 }

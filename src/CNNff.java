@@ -144,9 +144,9 @@ public class CNNff extends Structure {
                         }
                     }
                     //get only one row and column in each two, resulting in reducing the size to its half
-                    double[][][] m = new double[a/2][b/2][c];
-                    for (int k = 0; k < a/2; k++) {
-                        for (int l = 0; l < b/2; l++) {
+                    double[][][] m = new double[a/layer_current.scale][b/layer_current.scale][c];
+                    for (int k = 0; k < a/layer_current.scale; k++) {
+                        for (int l = 0; l < b/layer_current.scale; l++) {
                             for (int o = 0; o < c; o++) {
                                 m[k][l][o]=z[k*2][l*2][o];
                             }

@@ -9,7 +9,7 @@ public class SetUp extends Structure{
     }
 
     public static network SetUp(String[][] architecture) {
-        Random r = new Random(0);
+        Random r = new Random(9);
         network convnet = new network();
         int inputmap = 1;
         double mapsize = 28;

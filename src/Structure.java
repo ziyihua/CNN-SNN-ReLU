@@ -19,6 +19,7 @@ public class Structure {
         double[][] ffW;
         double[] rL;
         double acc;
+        float[] acc_snn;
         double[][] fv;
         double[][] o;
         double[][] e;
@@ -29,20 +30,24 @@ public class Structure {
         double[] dffb;
         double first_layer_dropout;
         long[][] time;
-        double[][] sum_fv;
-        double[][] omem;
-        double[][] o_refrac_end;
-        double[][] o_sum_spikes;
-        double[] spikes;
-        int[][] o_spikes;
+        float[][] sum_fv;
+        float[][] o_mem;
+        float[][] o_refrac_end;
+        float[][] o_sum_spikes;
+        float[][] o_spikes;
     }
 
     public static class LAYER implements Serializable{
         public LAYER() {
-            k = new ArrayList<weights>();
-            a = new ArrayList<A>();
-            d = new ArrayList<D>();
-            dk = new ArrayList<DK>();
+            k = new ArrayList<>();
+            a = new ArrayList<>();
+            d = new ArrayList<>();
+            dk = new ArrayList<>();
+            m = new ArrayList<>();
+            r = new ArrayList<>();
+            s = new ArrayList<>();
+            sp = new ArrayList<>();
+
         }
 
         String type;
@@ -54,9 +59,10 @@ public class Structure {
         List<A> a;
         List<D> d;
         List<DK> dk;
-        List<M> m;
-        List<R> r;
-        List<S> s;
+        List<float[][][]> m;
+        List<float[][][]> r;
+        List<float[][][]> s;
+        List<float[][][]> sp;
         double[] db;
         int[] used_maps;
     }
@@ -69,28 +75,6 @@ public class Structure {
         ArrayList k_list;
     }
 
-    public static class S implements Serializable {
-        public S() {
-            s_list = new ArrayList();
-        }
-
-        ArrayList s_list;
-    }
-
-    public static class R implements Serializable{
-        public R(){
-            r_list = new ArrayList();
-        }
-        ArrayList r_list;
-    }
-
-    public static class M implements Serializable{
-        public M() {
-            m_list = new ArrayList();
-        }
-
-        ArrayList m_list;
-    }
 
     public static class A implements Serializable{
         public A() {
