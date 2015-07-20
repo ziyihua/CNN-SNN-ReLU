@@ -29,13 +29,13 @@ public class Main {
 
         Structure.network convnet = new Structure.network();
         convnet = SetUp.SetUp(architecture);
-        convnet.first_layer_dropout=0.0;
+        convnet.first_layer_dropout=0.0f;
 
 
         //import images and labels
         int[] label_t;
         label_t = ImportFile.getLabel("train-labels-idx1-ubyte");
-        double[][][] image_t;
+        float[][][] image_t;
         image_t = ImportFile.getImage("train-images-idx3-ubyte");
 
 
@@ -52,26 +52,26 @@ public class Main {
 
 
         //parameters
-        double alpha = 1;
+        float alpha = 1;
         int batchsize = 50;
         int numepochs = 1;
         int learn_bias = 0;
-        double dropout = 0.0;
+        float dropout = 0.0f;
 
         convnet = CNNtrain.CNNTrain(architecture,convnet,alpha,numepochs,batchsize,dropout,learn_bias,label_t_new,image_t);
 
-        double[] loss = new double[convnet.rL.length];
+        /*float[] loss = new float[convnet.rL.length];
         for (int i = 0; i < convnet.rL.length; i++) {
             loss[i]=convnet.rL[i];
         }
-        double[] indx = new double[loss.length];
+        int[] indx = new int[loss.length];
         for (int i = 0; i < loss.length; i++) {
             indx[i] = i;
-        }
+        }*/
 
         int[] test_y;
         test_y = ImportFile.getLabel("t10k-labels-idx1-ubyte");
-        double[][][] test_x;
+        float[][][] test_x;
         test_x = ImportFile.getImage("t10k-images-idx3-ubyte");
 
         int[][] test_y_new = new int[10][test_y.length];
@@ -85,30 +85,9 @@ public class Main {
             }
         }
 
-        int[][] test_y_new_s=new int[10][10000];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10000; j++) {
-                test_y_new_s[i][j]=test_y_new[i][j];
-            }
-        }
-
-        int[] test_y_s = new int[10000];
-        for (int i = 0; i < 10000; i++) {
-            test_y_s[i]=test_y[i];
-        }
-
-        double[][][] test_x_s = new double[28][28][10000];
-        for (int i = 0; i < 28; i++) {
-            for (int j = 0; j < 28; j++) {
-                for (int k = 0; k < 10000; k++) {
-                    test_x_s[i][j][k]=test_x[i][j][k];
-                }
-            }
-        }
-
-        /*double rate = CNNtest.CNNtest(architecture,convnet,test_x,test_y);
+        float rate = CNNtest.CNNtest(architecture,convnet,test_x,test_y);
         convnet.acc = rate;
-        System.out.println(rate);*/
+        System.out.println(rate);
 
         /*try
         {
@@ -153,7 +132,7 @@ public class Main {
         }
         System.out.println("Deserialized network...");*/
 
-        convnet = Convlifsim.Convlifsim(convnet,test_x_s,test_y_new_s,test_y_s,0.000,1.0,0.001,0.020,0.001,1000);
+        convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000f,1.0f,0.001f,0.020f,0.001f,1000);
 
         /*double[] loss_e = new double[e.rL.length];
         for (int i = 0; i < e.rL.length; i++) {

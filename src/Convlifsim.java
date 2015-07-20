@@ -11,12 +11,12 @@ public class Convlifsim extends Structure {
     }
 
 
-    public static network Convlifsim(network convnet, double[][][] test_x, int[][] test_y_new, int[] test_y, double t_ref, double threshold, double dt, double duration, double report_every, double max_rate){
+    public static network Convlifsim(network convnet, float[][][] test_x, int[][] test_y_new, int[] test_y, float t_ref, float threshold, float dt, float duration, float report_every, float max_rate){
 
         int num_examples = test_x[0][0].length;
         int num_classes = test_y_new.length;
 
-        Random r = new Random();
+        Random r = new Random(9);
 
         float[] accuracy = new float[(int)(duration/dt)+1];
         int acc_indx = 0;
@@ -24,9 +24,9 @@ public class Convlifsim extends Structure {
         //initialization
         for (int i = 0; i < convnet.layers.size(); i++) {
 
-            int outputmaps = convnet.layers.get(i).a.get(0).a_list.size();
+            int outputmaps = convnet.layers.get(i).a.size();
             for (int j = 0; j < outputmaps; j++) {
-                float[][][] correctly_sized_zeros = new float[((double[][][])convnet.layers.get(i).a.get(0).a_list.get(j)).length][((double[][][])convnet.layers.get(i).a.get(0).a_list.get(j))[0].length][num_examples];
+                float[][][] correctly_sized_zeros = new float[convnet.layers.get(i).a.get(j).length][convnet.layers.get(i).a.get(j)[0].length][num_examples];
                 for (int k = 0; k < correctly_sized_zeros.length; k++) {
                     for (int l = 0; l < correctly_sized_zeros[0].length; l++) {
                         for (int m = 0; m < correctly_sized_zeros[0][0].length; m++) {
@@ -70,9 +70,9 @@ public class Convlifsim extends Structure {
         }
 
 
-        for (double i = 0; i <= duration; i=i+dt) {
+        for (float i = 0; i <= duration; i=i+dt) {
             //create Poisson distributed spikes form the input images (for all images in parallel)
-            double rescale_fac = 1/(dt*max_rate);
+            float rescale_fac = 1/(dt*max_rate);
             float[][][] spike_snapshot = new float[test_x.length][test_x[0].length][test_x[0][0].length];
             for (int j = 0; j < spike_snapshot.length; j++) {
                 for (int k = 0; k < spike_snapshot[0].length; k++) {
@@ -151,16 +151,16 @@ public class Convlifsim extends Structure {
                             //for each input map convolve with corresponding kernel and add to temp output map
                             //a matrix-wise 2D convolution along the 3rd dimension is used instead of 3D convolution
                             for (int l = 0; l < c; l++) {
-                                double[][] s_one = new double[a][b];
+                                float[][] s_one = new float[a][b];
                                 for (int m = 0; m < a; m++) {
                                     for (int n = 0; n < b; n++) {
                                         s_one[m][n] = convnet.layers.get(j - 1).s.get(k)[m][n][l];
                                     }
                                 }
-                                double[][] z_conv = Convolution.convolution2D(s_one, s_one.length, s_one[0].length, ((double[][]) convnet.layers.get(j).k.get(0).k_list.get(k * convnet.layers.get(j).outmaps + o)), convnet.layers.get(j).kernelsize, convnet.layers.get(j).kernelsize);
+                                float[][] z_conv = Convolution.convolution2D(s_one, s_one.length, s_one[0].length, convnet.layers.get(j).k.get(k * convnet.layers.get(j).outmaps + o), convnet.layers.get(j).kernelsize, convnet.layers.get(j).kernelsize);
                                 for (int m = 0; m < z.length; m++) {
                                     for (int n = 0; n < z[0].length; n++) {
-                                        z[m][n][l] = z[m][n][l] + (float) z_conv[m][n];
+                                        z[m][n][l] = z[m][n][l] + z_conv[m][n];
                                     }
                                 }
                             }
@@ -217,7 +217,7 @@ public class Convlifsim extends Structure {
                             for (int l = 0; l < z[0].length; l++) {
                                 for (int m = 0; m < z[0][0].length; m++) {
                                     if (spikes_c_m[k][l][m] == 1.0) {
-                                        refrac_end_c_m[k][l][m] = (float)(i + t_ref);
+                                        refrac_end_c_m[k][l][m] = i + t_ref;
                                     } else {
                                         refrac_end_c_m[k][l][m] = convnet.layers.get(j).r.get(o)[k][l][m];
                                     }
@@ -255,10 +255,10 @@ public class Convlifsim extends Structure {
                     int c = layer_previous.s.get(0)[0][0].length;
                     int a_new = a-layer_current.scale+1;
                     int b_new = b-layer_current.scale+1;
-                    double[][] subsample = new double[layer_current.scale][layer_current.scale];
+                    float[][] subsample = new float[layer_current.scale][layer_current.scale];
                     for (int k = 0; k < layer_current.scale; k++) {
                         for (int l = 0; l < layer_current.scale; l++) {
-                            subsample[k][l]=(double) 1/(layer_current.scale*layer_current.scale);
+                            subsample[k][l]=(float) 1/(layer_current.scale*layer_current.scale);
                         }
                     }
 
@@ -266,16 +266,16 @@ public class Convlifsim extends Structure {
                         float[][][] z = new float[a_new][b_new][c];
                         //matrix-wise 2D convolution
                         for (int l = 0; l < c; l++) {
-                            double[][] s_one = new double[a][b];
+                            float[][] s_one = new float[a][b];
                             for (int m = 0; m < a; m++) {
                                 for (int n = 0; n < b; n++) {
                                     s_one[m][n]= layer_previous.s.get(k)[m][n][l];
                                 }
                             }
-                            double[][] z_conv = Convolution.convolution2D(s_one,a,b,subsample,layer_current.scale,layer_current.scale);
+                            float[][] z_conv = Convolution.convolution2D(s_one,a,b,subsample,layer_current.scale,layer_current.scale);
                             for (int m = 0; m < a_new; m++) {
                                 for (int n = 0; n < b_new; n++) {
-                                    z[m][n][l]=(float)z_conv[m][n];
+                                    z[m][n][l]=z_conv[m][n];
                                 }
                             }
                         }
@@ -341,7 +341,7 @@ public class Convlifsim extends Structure {
                             for (int n = 0; n < m[0].length; n++) {
                                 for (int o = 0; o < m[0].length; o++) {
                                     if (spikes_s_m[l][n][o]==1.0){
-                                        refrac_end_s_m[l][n][o]=(float)(i+t_ref);
+                                        refrac_end_s_m[l][n][o]=i+t_ref;
                                     }else {
                                         refrac_end_s_m[l][n][o]= layer_current.r.get(k)[l][n][o];
                                     }
@@ -376,25 +376,24 @@ public class Convlifsim extends Structure {
             int outputmaps = layer_current.s.size();
 
             //fv
-            double[][] fv = new double[a*b*outputmaps][c];
+            convnet.fv = new float[a*b*outputmaps][c];
             for (int j = 0; j < c; j++) {
                 int row = 0;
                 for (int k = 0; k < outputmaps; k++) {
                     for (int l = 0; l < b; l++) {
                         for (int m = 0; m < a; m++) {
-                            fv[row][j]=layer_current.s.get(k)[m][l][j];
+                            convnet.fv[row][j]=layer_current.s.get(k)[m][l][j];
                             row++;
                         }
                     }
                 }
             }
-            convnet.fv = fv;
 
             //sum_fv
-            convnet.sum_fv = new float[fv.length][fv[0].length];
-            for (int j = 0; j < fv.length; j++) {
-                for (int k = 0; k < fv[0].length; k++) {
-                    convnet.sum_fv[j][k] = convnet.sum_fv[j][k]+(float)fv[j][k];
+            convnet.sum_fv = new float[convnet.fv.length][convnet.fv[0].length];
+            for (int j = 0; j < convnet.fv.length; j++) {
+                for (int k = 0; k < convnet.fv[0].length; k++) {
+                    convnet.sum_fv[j][k] = convnet.sum_fv[j][k]+convnet.fv[j][k];
                 }
             }
 
@@ -413,7 +412,7 @@ public class Convlifsim extends Structure {
             for (int j = 0; j < d; j++) {
                 for (int k = 0; k < c; k++) {
                     for (int l = 0; l < e; l++) {
-                        impulse[j][k]=impulse[j][k]+(float)(convnet.ffW[j][l]*convnet.fv[l][k]);
+                        impulse[j][k]=impulse[j][k]+convnet.ffW[j][l]*convnet.fv[l][k];
                     }
                 }
             }
@@ -451,7 +450,7 @@ public class Convlifsim extends Structure {
             //reset
             for (int j = 0; j < d; j++) {
                 for (int k = 0; k < c; k++) {
-                    if (convnet.o_spikes[j][k]==1.0){
+                    if (convnet.o_spikes[j][k]==1.0f){
                         convnet.o_mem[j][k]=0.0f;
                     }
                 }
@@ -460,8 +459,8 @@ public class Convlifsim extends Structure {
             //ban updates until...
             for (int j = 0; j < d; j++) {
                 for (int k = 0; k < c; k++) {
-                    if (convnet.o_spikes[j][k]==1.0){
-                        convnet.o_refrac_end[j][k]=(float)(i+t_ref);
+                    if (convnet.o_spikes[j][k]==1.0f){
+                        convnet.o_refrac_end[j][k]=i+t_ref;
                     }else {
                         convnet.o_refrac_end[j][k]=convnet.o_refrac_end[j][k];
                     }
@@ -481,7 +480,7 @@ public class Convlifsim extends Structure {
             if ((((Math.round(i/dt)) % (Math.round(report_every/dt)))==0) && ((i/dt) > 0)){
                 int[] guess_indx = new int[num_examples];
                 for (int j = 0; j < num_examples; j++) {
-                    double max = 0;
+                    float max = 0;
                     int k_max = 0;
                     for (int k = 0; k < num_classes; k++) {
                         if (convnet.o_sum_spikes[k][j]>max){

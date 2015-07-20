@@ -15,20 +15,20 @@ public class Structure {
         }
 
         List<LAYER> layers;
-        double[] ffb;
-        double[][] ffW;
-        double[] rL;
-        double acc;
+        float[] ffb;
+        float[][] ffW;
+        float[] rL;
+        float acc;
         float[] acc_snn;
-        double[][] fv;
-        double[][] o;
-        double[][] e;
-        double L;
-        double[][] od;
-        double[][] fvd;
-        double[][] dffW;
-        double[] dffb;
-        double first_layer_dropout;
+        float[][] fv;
+        float[][] o;
+        float[][] e;
+        float L;
+        float[][] od;
+        float[][] fvd;
+        float[][] dffW;
+        float[] dffb;
+        float first_layer_dropout;
         long[][] time;
         float[][] sum_fv;
         float[][] o_mem;
@@ -54,57 +54,24 @@ public class Structure {
         int outmaps;
         int kernelsize;
         int scale;
-        List<weights> k;
-        double[] b;
-        List<A> a;
-        List<D> d;
-        List<DK> dk;
+        List<float[][]> k;
+        float[] b;
+        List<float[][][]> a;
+        List<float[][][]> d;
+        List<float[][]> dk;
         List<float[][][]> m;
         List<float[][][]> r;
         List<float[][][]> s;
         List<float[][][]> sp;
-        double[] db;
+        float[] db;
         int[] used_maps;
     }
 
-    public static class weights implements Serializable{
-        public weights() {
-            k_list = new ArrayList();
-        }
-
-        ArrayList k_list;
-    }
-
-
-    public static class A implements Serializable{
-        public A() {
-            a_list = new ArrayList();
-        }
-
-        ArrayList a_list;
-    }
-
-    public static class D implements Serializable{
-        public D() {
-            d_list = new ArrayList();
-        }
-
-        ArrayList d_list;
-    }
-
-    public static class DK implements Serializable{
-        public DK() {
-            dk_list = new ArrayList();
-        }
-
-        ArrayList dk_list;
-    }
 
 
 
-
-    public static double[][][] flip3D(double[][][] input){
-        double[][][] output = new double[input.length][input[0].length][input[0][0].length];
+    public static float[][][] flip3D(float[][][] input){
+        float[][][] output = new float[input.length][input[0].length][input[0][0].length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
                 for (int k = 0; k < input[0][0].length; k++) {

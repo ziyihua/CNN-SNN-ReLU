@@ -9,7 +9,7 @@ public class CNNtrain extends Structure {
     public CNNtrain(){
     }
 
-    public static network CNNTrain(String[][] architecture, network convnet, double alpha, int numepochs, int batchsize, double dropout, int learn_bias, int[][] label, double[][][]image){
+    public static network CNNTrain(String[][] architecture, network convnet, float alpha, int numepochs, int batchsize, float dropout, int learn_bias, int[][] label, float[][][]image){
         int m=label[0].length;
         int numbatches = m/batchsize;
         if (m % batchsize != 0){
@@ -20,13 +20,13 @@ public class CNNtrain extends Structure {
         Random r = new Random(0);
 
         //array storing squared loss
-        double[] rl = new double[numepochs*numbatches];
+        convnet.rL = new float[numepochs*numbatches];
         int loss_index=0;
         long[][] time = new long[2][numepochs];
 
         for (int i = 0; i < numepochs; i++) {
 
-            if(i==1 && rl[loss_index-1]>0.5){
+            if(i==1 && convnet.rL[loss_index-1]>0.5){
                 throw new NumberFormatException();
             }
 
@@ -38,7 +38,7 @@ public class CNNtrain extends Structure {
 
             for (int j = 0; j < numbatches; j++) {
 
-                double[][][] batch_x = new double[image.length][image[0].length][batchsize];
+                float[][][] batch_x = new float[image.length][image[0].length][batchsize];
                 for (int k = 0; k <image.length ; k++) {
                     for (int l = 0; l < image[0].length ; l++) {
                         for (int n = 0; n < batchsize; n++) {
@@ -62,7 +62,7 @@ public class CNNtrain extends Structure {
                         for (int l = 0; l < indx.length; l++) {
                             //Random r = new Random();
                             double randomValue = r.nextDouble();
-                            if (randomValue>dropout){
+                            if ((float)randomValue>dropout){
                                 indx[l]=1;
                             }else indx[l]=0;
                         }
@@ -78,10 +78,10 @@ public class CNNtrain extends Structure {
                 convnet = CNNapplygrads.CNNapplygrads(architecture,convnet,alpha,learn_bias);
 
                 if (loss_index==0){
-                    rl[loss_index]=convnet.L;
+                    convnet.rL[loss_index]=convnet.L;
                     loss_index++;
                 }else {
-                    rl[loss_index]=rl[loss_index-1]*0.99+convnet.L*0.01;
+                    convnet.rL[loss_index]=(float)(convnet.rL[loss_index-1]*0.99+convnet.L*0.01);
                     loss_index++;
                 }
             }
@@ -97,7 +97,6 @@ public class CNNtrain extends Structure {
 
         }
 
-        convnet.rL=rl;
         convnet.time=time;
 
         for (int k = 1; k < convnet.layers.size(); k++) {
