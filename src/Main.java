@@ -1,8 +1,11 @@
-import org.math.plot.Plot2DPanel;
+import com.jmatio.io.MatFileReader;
+import com.jmatio.types.MLArray;
+import com.jmatio.types.MLDouble;
+import com.jmatio.types.MLNumericArray;
 
-import javax.swing.*;
 import java.io.*;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by ziyihua on 17/07/15.
@@ -10,6 +13,11 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        MatFileReader m = new MatFileReader("matnativedouble.mat");
+        double[][] mlArrayDouble = ((MLDouble) m.getMLArray("arr")).getArray();
+        System.out.println(mlArrayDouble[0][0]);
+
+
         //Layers of CNN
         //row 0 is type
         String[][] architecture = new String[3][5];
@@ -89,6 +97,15 @@ public class Main {
         convnet.acc = rate;
         System.out.println(rate);
 
+        for (int i = 0; i < convnet.layers.get(1).k.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                for (int k = 0; k < 5; k++) {
+                    System.out.println(convnet.layers.get(1).k.get(i)[j][k]);
+                }
+            }
+            System.out.println("lalala");
+        }
+
         /*try
         {
             FileOutputStream fileOut =
@@ -132,7 +149,7 @@ public class Main {
         }
         System.out.println("Deserialized network...");*/
 
-        convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000f,1.0f,0.001f,0.020f,0.001f,1000);
+        //convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000f,1.0f,0.001f,0.020f,0.001f,1000);
 
         /*double[] loss_e = new double[e.rL.length];
         for (int i = 0; i < e.rL.length; i++) {

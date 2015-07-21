@@ -16,7 +16,7 @@ public class Convlifsim extends Structure {
         int num_examples = test_x[0][0].length;
         int num_classes = test_y_new.length;
 
-        Random r = new Random(9);
+        Random r = new Random();
 
         float[] accuracy = new float[(int)(duration/dt)+1];
         int acc_indx = 0;
@@ -77,8 +77,8 @@ public class Convlifsim extends Structure {
             for (int j = 0; j < spike_snapshot.length; j++) {
                 for (int k = 0; k < spike_snapshot[0].length; k++) {
                     for (int l = 0; l < spike_snapshot[0][0].length; l++) {
-                        double RandomValue = r.nextDouble();
-                        spike_snapshot[j][k][l]= (float)(RandomValue * rescale_fac);
+                        float RandomValue = r.nextFloat();
+                        spike_snapshot[j][k][l]= RandomValue * rescale_fac;
                     }
                 }
             }
