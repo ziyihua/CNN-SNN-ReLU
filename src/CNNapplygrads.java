@@ -8,7 +8,7 @@ public class CNNapplygrads extends Structure {
     public CNNapplygrads(){
     }
 
-    public static network CNNapplygrads(network convnet, double alpha, int learn_bias){
+    public static network CNNapplygrads(network convnet, float alpha, int learn_bias){
 
         int n = convnet.layers.size();
 
@@ -24,7 +24,7 @@ public class CNNapplygrads extends Structure {
                 //update weights
                 for (int k = 0; k < num_a_previous; k++) {
                     for (int j = 0; j < num_a_current; j++) {
-                        double[][] kernel_new = new double[layer_current.kernelsize][layer_current.kernelsize];
+                        float[][] kernel_new = new float[layer_current.kernelsize][layer_current.kernelsize];
                         for (int l = 0; l < layer_current.kernelsize; l++) {
                             for (int m = 0; m < layer_current.kernelsize; m++) {
                                 kernel_new[l][m] = layer_current.k.get(j+k*layer_current.outmaps)[l][m]-alpha*layer_current.dk.get(j+k*layer_current.outmaps)[l][m];

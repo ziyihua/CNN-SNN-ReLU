@@ -2,25 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff80a20b-47e2-49c9-aa05-77f4e49998a3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Normalize_CNN_model.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/matnativedouble.mat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/RandomNumberGenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/matnativedouble.mat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/RandomNumberGenerator.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNapplygrads.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNapplygrads.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNbp.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNbp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNff.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNff.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNtest.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNtest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNtrain.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/CNNtrain.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Convlifsim.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Convlifsim.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Convolution.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Convolution.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/ImportFile.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/ImportFile.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Main.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Normalize_CNN_data.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Normalize_CNN_data.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/SetUp.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/SetUp.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure$LAYER.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure$LAYER.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure$network.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure$network.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure.class" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/Structure.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/.gitignore" afterPath="$PROJECT_DIR$/out/production/CNN-SNN-ReLU/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CNNapplygrads.java" afterPath="$PROJECT_DIR$/src/CNNapplygrads.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CNNbp.java" afterPath="$PROJECT_DIR$/src/CNNbp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CNNff.java" afterPath="$PROJECT_DIR$/src/CNNff.java" />
@@ -31,6 +20,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ImportFile.java" afterPath="$PROJECT_DIR$/src/ImportFile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Normalize_CNN_data.java" afterPath="$PROJECT_DIR$/src/Normalize_CNN_data.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Normalize_CNN_model.java" afterPath="$PROJECT_DIR$/src/Normalize_CNN_model.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SetUp.java" afterPath="$PROJECT_DIR$/src/SetUp.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Structure.java" afterPath="$PROJECT_DIR$/src/Structure.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -55,11 +45,57 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.7459016">
-              <caret line="193" column="2" selection-start-line="193" selection-start-column="2" selection-end-line="193" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="445" column="98" selection-start-line="445" selection-start-column="98" selection-end-line="445" selection-end-column="98" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SetUp.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/SetUp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CNNtest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CNNtest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="32" column="52" selection-start-line="32" selection-start-column="52" selection-end-line="32" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Convlifsim.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Convlifsim.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.17705736">
+              <caret line="494" column="55" selection-start-line="494" selection-start-column="55" selection-end-line="494" selection-end-column="55" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CNNtrain.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CNNtrain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -103,20 +139,20 @@
         <option value="$PROJECT_DIR$/src/ec/util/MersenneTwister.java" />
         <option value="$PROJECT_DIR$/ec/util/MersenneTwister.java" />
         <option value="$PROJECT_DIR$/src/RandomNumberGenerator.java" />
+        <option value="$PROJECT_DIR$/src/Normalization_CNN_model.java" />
+        <option value="$PROJECT_DIR$/src/CNNapplygrads.java" />
         <option value="$PROJECT_DIR$/src/Convolution.java" />
         <option value="$PROJECT_DIR$/src/ImportFile.java" />
-        <option value="$PROJECT_DIR$/src/Convlifsim.java" />
-        <option value="$PROJECT_DIR$/src/SetUp.java" />
+        <option value="$PROJECT_DIR$/src/Normalize_CNN_model.java" />
+        <option value="$PROJECT_DIR$/src/Structure.java" />
         <option value="$PROJECT_DIR$/src/CNNff.java" />
-        <option value="$PROJECT_DIR$/src/CNNtrain.java" />
-        <option value="$PROJECT_DIR$/src/CNNapplygrads.java" />
         <option value="$PROJECT_DIR$/src/CNNbp.java" />
+        <option value="$PROJECT_DIR$/src/Normalize_CNN_data.java" />
+        <option value="$PROJECT_DIR$/src/SetUp.java" />
+        <option value="$PROJECT_DIR$/src/CNNtrain.java" />
         <option value="$PROJECT_DIR$/src/CNNtest.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/Structure.java" />
-        <option value="$PROJECT_DIR$/src/Normalize_CNN_data.java" />
-        <option value="$PROJECT_DIR$/src/Normalization_CNN_model.java" />
-        <option value="$PROJECT_DIR$/src/Normalize_CNN_model.java" />
+        <option value="$PROJECT_DIR$/src/Convlifsim.java" />
       </list>
     </option>
   </component>
@@ -420,8 +456,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24095395" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19161184" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3275862" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -468,9 +504,18 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints-dialog>
-        <breakpoints-dialog />
+        <breakpoints-dialog>
+          <selected-grouping-rules>
+            <grouping-rule id="XBreakpointGroupingByClassRule" />
+          </selected-grouping-rules>
+        </breakpoints-dialog>
       </breakpoints-dialog>
-      <option name="time" value="3" />
+      <default-breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties />
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -506,9 +551,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -568,9 +611,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="499" column="41" selection-start-line="499" selection-start-column="41" selection-end-line="499" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -630,9 +671,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -668,60 +707,72 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Permutation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11221945">
+        <state vertical-scroll-proportion="0.0">
           <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Convlifsim.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/src.zip!/java/util/zip/ZipFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.2947977">
-          <caret line="76" column="61" selection-start-line="76" selection-start-column="61" selection-end-line="76" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.28688523">
+          <caret line="797" column="31" selection-start-line="797" selection-start-column="31" selection-end-line="797" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ImportFile.java">
+    <entry file="file://$PROJECT_DIR$/src/CNNapplygrads.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236995">
-          <caret line="49" column="31" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-6.4545455">
+          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Normalize_CNN_model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2109826">
+          <caret line="51" column="56" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Convolution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5336658">
-          <caret line="128" column="43" selection-start-line="128" selection-start-column="43" selection-end-line="128" selection-end-column="43" />
+        <state vertical-scroll-proportion="5.33237">
+          <caret line="123" column="14" selection-start-line="123" selection-start-column="14" selection-end-line="123" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CNNtest.java">
+    <entry file="file://$PROJECT_DIR$/src/ImportFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+        <state vertical-scroll-proportion="1.950867">
+          <caret line="47" column="40" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Structure.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
+        <state vertical-scroll-proportion="1.9797688">
+          <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CNNbp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.17207">
+          <caret line="165" column="20" selection-start-line="165" selection-start-column="20" selection-end-line="165" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Normalize_CNN_data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.7704918">
-          <caret line="72" column="23" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.29925188">
+          <caret line="18" column="47" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
           <folding />
         </state>
       </provider>
@@ -729,57 +780,53 @@
     <entry file="file://$PROJECT_DIR$/src/CNNtrain.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="126" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="126" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SetUp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.56557375">
-          <caret line="51" column="45" selection-start-line="51" selection-start-column="45" selection-end-line="51" selection-end-column="45" />
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CNNbp.java">
+    <entry file="file://$PROJECT_DIR$/src/SetUp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.336066">
-          <caret line="217" column="52" selection-start-line="217" selection-start-column="52" selection-end-line="217" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CNNapplygrads.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24590164">
-          <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Normalize_CNN_model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6229508">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CNNff.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.22131148">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.33167082">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CNNtest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="52" selection-start-line="32" selection-start-column="52" selection-end-line="32" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.7459016">
-          <caret line="193" column="2" selection-start-line="193" selection-start-column="2" selection-end-line="193" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="445" column="98" selection-start-line="445" selection-start-column="98" selection-end-line="445" selection-end-column="98" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Convlifsim.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17705736">
+          <caret line="494" column="55" selection-start-line="494" selection-start-column="55" selection-end-line="494" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

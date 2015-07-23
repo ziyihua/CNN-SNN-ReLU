@@ -12,7 +12,7 @@ public class Normalize_CNN_model extends Structure {
 
             if ("c".equals(convnet.layers.get(i).type)){
 
-                double[] weight_sum = new double[convnet.layers.get(i).a.size()];
+                float[] weight_sum = new float[convnet.layers.get(i).a.size()];
                 for (int j = 0; j < weight_sum.length; j++) {
                     weight_sum[j]=0;
                 }
@@ -29,7 +29,7 @@ public class Normalize_CNN_model extends Structure {
                     }
                 }
 
-                double max_weight_sum=0;
+                float max_weight_sum=0;
                 for (int j = 0; j < weight_sum.length; j++) {
                     if (weight_sum[j]>max_weight_sum){
                         max_weight_sum=weight_sum[j];
@@ -38,7 +38,7 @@ public class Normalize_CNN_model extends Structure {
 
                 if (strong_norm==1){
                     for (int j = 0; j < convnet.layers.get(i).k.size(); j++) {
-                        double[][] new_k = new double[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
+                        float[][] new_k = new float[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
                         for (int k = 0; k < new_k.length; k++) {
                             for (int l = 0; l < new_k[0].length; l++) {
                                 new_k[k][l]=convnet.layers.get(i).k.get(j)[k][l]/max_weight_sum;
@@ -49,7 +49,7 @@ public class Normalize_CNN_model extends Structure {
                 }else {
                     if(max_weight_sum>1){
                         for (int j = 0; j < convnet.layers.get(i).k.size(); j++) {
-                            double[][] new_k = new double[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
+                            float[][] new_k = new float[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
                             for (int k = 0; k < new_k.length; k++) {
                                 for (int l = 0; l < new_k[0].length; l++) {
                                     new_k[k][l]=convnet.layers.get(i).k.get(j)[k][l]/max_weight_sum;

@@ -15,27 +15,27 @@ public class Structure {
         }
 
         List<LAYER> layers;
-        double[] ffb;
-        double[][] ffW;
-        double[] rL;
-        double acc;
-        double[] acc_snn;
-        double[][] fv;
-        double[][] o;
-        double[][] e;
-        double L;
-        double[][] od;
-        double[][] fvd;
-        double[][] dffW;
-        double[] dffb;
-        double first_layer_dropout;
+        float[] ffb;
+        float[][] ffW;
+        float[] rL;
+        float acc;
+        float[] acc_snn;
+        float[][] fv;
+        float[][] o;
+        float[][] e;
+        float L;
+        float[][] od;
+        float[][] fvd;
+        float[][] dffW;
+        float[] dffb;
+        float first_layer_dropout;
         long[][] time;
-        double[][] sum_fv;
-        double[][] o_mem;
-        double[][] o_refrac_end;
-        double[][] o_sum_spikes;
-        double[][] o_spikes;
-        double[] factor_log;
+        float[][] sum_fv;
+        float[][] o_mem;
+        float[][] o_refrac_end;
+        int[][] o_sum_spikes;
+        int[][] o_spikes;
+        float[] factor_log;
     }
 
     public static class LAYER implements Serializable{
@@ -55,24 +55,24 @@ public class Structure {
         int outmaps;
         int kernelsize;
         int scale;
-        List<double[][]> k;
-        double[] b;
-        List<double[][][]> a;
-        List<double[][][]> d;
-        List<double[][]> dk;
-        List<double[][][]> m;
-        List<double[][][]> r;
-        List<double[][][]> s;
-        List<double[][][]> sp;
-        double[] db;
+        List<float[][]> k;
+        float[] b;
+        List<float[][][]> a;
+        List<float[][][]> d;
+        List<float[][]> dk;
+        List<float[][][]> m;
+        List<float[][][]> r;
+        List<int[][][]> s;
+        List<int[][][]> sp;
+        float[] db;
         int[] used_maps;
     }
 
 
 
 
-    public static double[][][] flip3D(double[][][] input){
-        double[][][] output = new double[input.length][input[0].length][input[0][0].length];
+    public static float[][][] flip3D(float[][][] input){
+        float[][][] output = new float[input.length][input[0].length][input[0][0].length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
                 for (int k = 0; k < input[0][0].length; k++) {

@@ -1,8 +1,9 @@
 import com.jmatio.io.MatFileReader;
-import com.jmatio.types.MLDouble;
+import com.jmatio.types.*;
 import org.math.plot.Plot2DPanel;
 
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
 import java.io.*;
 
 /**
@@ -11,21 +12,201 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        MatFileReader m1 = new MatFileReader("k.mat");
-        double[][] k_m = ((MLDouble) m1.getMLArray("k")).getArray();
+
+        Structure.network convnet = new Structure.network();
+        for (int i = 0; i < 5; i++) {
+            Structure.LAYER layer = new Structure.LAYER();
+            convnet.layers.add(i,layer);
+        }
+
+        MatFileReader s = new MatFileReader("ss.mat");
+        double[][] ss_m = ((MLDouble) s.getMLArray("ss")).getArray();
+        float[][][] ss = new float[28][28][10000];
+        for (int i = 0; i < 10000; i++) {
+            int row=0;
+            for (int j = 0; j < 28; j++) {
+                for (int k = 0; k < 28; k++) {
+                    ss[k][j][i]=(float)ss_m[row][i];
+                    row++;
+                }
+            }
+        }
+
+
+        MatFileReader m = new MatFileReader("cnn.mat");
+
+        MLStructure cnn = (MLStructure) m.getMLArray("cnn");
+        MLCell layers = (MLCell) cnn.getField("layers");
+
+        //type
+        for (int i = 0; i < 5; i++) {
+            convnet.layers.get(i).type= Character.toString(((MLChar) ((MLStructure) layers.get(i)).getField("type")).getChar(0, 0));
+        }
+
+        //activation
+        MLStructure layer0 = (MLStructure) layers.get(0);
+        //layer0
+        MLCell layer0_a = (MLCell)layer0.getField("a");
+        double[][] layer0_a_m_d = ((MLDouble) layer0_a.get(0)).getArray();
+        float[][][] layer0_a_m = new float[28][28][50];
+        for (int i = 0; i < 50; i++) {
+            for (int j = 0; j < 28; j++) {
+                for (int k = 0; k < 28; k++) {
+                    layer0_a_m[k][j][i]=(float)layer0_a_m_d[k][i*28+j];
+                }
+            }
+        }
+        convnet.layers.get(0).a.add(0,layer0_a_m);
+        //layer1
+        MLStructure layer1 = (MLStructure) layers.get(1);
+        MLCell layer1_a = (MLCell)layer1.getField("a");
+        for (int i = 0; i < 6; i++) {
+            double[][] layer1_a_m_d = ((MLDouble) layer1_a.get(i)).getArray();
+            float[][][] layer1_a_m = new float[24][24][50];
+            for (int j = 0; j < 50; j++) {
+                for (int k = 0; k < 24; k++) {
+                    for (int l = 0; l < 24; l++) {
+                        layer1_a_m[l][k][j]=(float)layer1_a_m_d[l][j*24+k];
+                    }
+                }
+            }
+            convnet.layers.get(1).a.add(i,layer1_a_m);
+        }
+        //layer2
+        MLStructure layer2 = (MLStructure) layers.get(2);
+        MLCell layer2_a = (MLCell)layer2.getField("a");
+        for (int i = 0; i < 6; i++) {
+            double[][] layer2_a_m_d = ((MLDouble) layer2_a.get(i)).getArray();
+            float[][][] layer2_a_m = new float[12][12][50];
+            for (int j = 0; j < 50; j++) {
+                for (int k = 0; k < 12; k++) {
+                    for (int l = 0; l < 12; l++) {
+                        layer2_a_m[l][k][j]=(float)layer2_a_m_d[l][j*12+k];
+                    }
+                }
+            }
+            convnet.layers.get(2).a.add(i,layer2_a_m);
+        }
+        //layer3
+        MLStructure layer3 = (MLStructure) layers.get(3);
+        MLCell layer3_a = (MLCell)layer3.getField("a");
+        for (int i = 0; i < 12; i++) {
+            double[][] layer3_a_m_d = ((MLDouble) layer3_a.get(i)).getArray();
+            float[][][] layer3_a_m = new float[8][8][50];
+            for (int j = 0; j < 50; j++) {
+                for (int k = 0; k < 8; k++) {
+                    for (int l = 0; l < 8; l++) {
+                        layer3_a_m[l][k][j]=(float)layer3_a_m_d[l][j*8+k];
+                    }
+                }
+            }
+            convnet.layers.get(3).a.add(i,layer3_a_m);
+        }
+        //layer4
+        MLStructure layer4 = (MLStructure) layers.get(4);
+        MLCell layer4_a = (MLCell)layer3.getField("a");
+        for (int i = 0; i < 12; i++) {
+            double[][] layer4_a_m_d = ((MLDouble) layer4_a.get(i)).getArray();
+            float[][][] layer4_a_m = new float[4][4][50];
+            for (int j = 0; j < 50; j++) {
+                for (int k = 0; k < 4; k++) {
+                    for (int l = 0; l < 4; l++) {
+                        layer4_a_m[l][k][j]=(float)layer4_a_m_d[l][j*4+k];
+                    }
+                }
+            }
+            convnet.layers.get(4).a.add(i,layer4_a_m);
+        }
+
+        //kernel
+        //layer1
+        MLCell layer1_k = (MLCell) layer1.getField("k");
+        MLCell layer1_k_k = (MLCell) layer1_k.get(0);
+        for (int i = 0; i < 6; i++) {
+            double[][] layer1_k_m_d = ((MLDouble)layer1_k_k.get(i)).getArray();
+            float[][] layer1_k_m = new float[5][5];
+            for (int j = 0; j < 5; j++) {
+                for (int k = 0; k < 5; k++) {
+                    layer1_k_m[k][j]=(float)layer1_k_m_d[k][j];
+                }
+            }
+            convnet.layers.get(1).k.add(i,layer1_k_m);
+        }
+        convnet.layers.get(1).kernelsize=5;
+        convnet.layers.get(1).outmaps=6;
+        //layer3
+        MLCell layer3_k = (MLCell) layer3.getField("k");
+        for (int i = 0; i < 6; i++) {
+            MLCell layer3_k_k = (MLCell) layer3_k.get(i);
+            for (int j = 0; j < 12; j++) {
+                double[][] layer3_k_m_d = ((MLDouble)layer3_k_k.get(j)).getArray();
+                float[][] layer3_k_m = new float[5][5];
+                for (int k = 0; k < 5; k++) {
+                    for (int l = 0; l < 5; l++) {
+                        layer3_k_m[l][k]=(float)layer3_k_m_d[l][k];
+                    }
+                }
+                convnet.layers.get(3).k.add(i*12+j,layer3_k_m);
+            }
+        }
+        convnet.layers.get(3).kernelsize=5;
+        convnet.layers.get(3).outmaps=12;
+
+        //scale
+        convnet.layers.get(2).scale=2;
+        convnet.layers.get(4).scale=2;
+
+        //ffW
+        MLArray ffW = cnn.getField("ffW");
+        double[][] ffW_m = ((MLDouble) ffW).getArray();
+        convnet.ffW=new float[10][192];
+        for (int i = 0; i < ffW_m.length; i++) {
+            for (int j = 0; j < ffW_m[0].length; j++) {
+                convnet.ffW[i][j]=(float)ffW_m[i][j];
+            }
+        }
+
+        //fv
+        MLArray fv = cnn.getField("fv");
+        double[][] fv_m = ((MLDouble) fv).getArray();
+        convnet.fv=new float[192][50];
+        for (int i = 0; i < fv_m.length; i++) {
+            for (int j = 0; j < fv_m[0].length; j++) {
+                convnet.fv[i][j]=(float)fv_m[i][j];
+            }
+        }
+
+
+
+
+
+/*        MatFileReader m1 = new MatFileReader("k.mat");
+        float[][] k_m_d = ((MLfloat) m1.getMLArray("k")).getArray();
+        float[][] k_m = new float[k_m_d.length][k_m_d[0].length];
+        for (int i = 0; i < k_m.length; i++) {
+            for (int j = 0; j < k_m[0].length; j++) {
+                k_m[i][j]=(float)k_m_d[i][j];
+            }
+        }
 
 
         MatFileReader m2 = new MatFileReader("ffW.mat");
-        double[][] f_m = ((MLDouble) m2.getMLArray("ffW")).getArray();
+        float[][] f_m_d = ((MLfloat) m2.getMLArray("ffW")).getArray();
+        float[][] f_m = new float[f_m_d.length][f_m_d[0].length];
+        for (int i = 0; i < f_m.length; i++) {
+            for (int j = 0; j < f_m[0].length; j++) {
+                f_m[i][j]=(float)f_m_d[i][j];
+            }
+        }*/
 
-        MatFileReader m3 = new MatFileReader("train_x.mat");
+        /*MatFileReader m3 = new MatFileReader("train_x.mat");
         double[][] train_x = ((MLDouble) m3.getMLArray("train_x")).getArray();
-        double[][][] image_t=new double[28][28][60000] ;
+        float[][][] image_t=new float[28][28][60000] ;
         for (int i = 0; i < 60000; i++) {
             int row=0;
             for (int j = 0; j < 28; j++) {
                 for (int k = 0; k < 28; k++) {
-                    image_t[k][j][i]=train_x[row][i];
+                    image_t[k][j][i]=(float)train_x[row][i];
                     row++;
                 }
             }
@@ -45,16 +226,16 @@ public class Main {
         int[] kk = new int[60000];
         for (int i = 0; i < 60000; i++) {
             kk[i]=(int)kk_m[0][i];
-        }
+        }*/
 
         MatFileReader m6 = new MatFileReader("test_x.mat");
         double[][] test_x_m = ((MLDouble) m6.getMLArray("test_x")).getArray();
-        double[][][] test_x=new double[28][28][10000] ;
+        float[][][] test_x=new float[28][28][10000] ;
         for (int i = 0; i < 10000; i++) {
             int row=0;
             for (int j = 0; j < 28; j++) {
                 for (int k = 0; k < 28; k++) {
-                    test_x[k][j][i]=test_x_m[row][i];
+                    test_x[k][j][i]=(float)test_x_m[row][i];
                     row++;
                 }
             }
@@ -81,7 +262,7 @@ public class Main {
 
         //Layers of CNN
         //row 0 is type
-        String[][] architecture = new String[3][5];
+        /*String[][] architecture = new String[3][5];
         architecture[0][0] = "i";
         architecture[0][1] = "c";
         architecture[0][2] = "s";
@@ -97,14 +278,14 @@ public class Main {
         architecture[2][3] = "12";
 
         Structure.network convnet = new Structure.network();
-        convnet = SetUp.SetUp(architecture,k_m,f_m);
-        convnet.first_layer_dropout=0.0;
+        convnet = SetUp.SetUp(architecture);
+        convnet.first_layer_dropout=0.0f;
 
 
         //import images and labels
-        /*int[] label_t;
+        int[] label_t;
         label_t = ImportFile.getLabel("train-labels-idx1-ubyte");
-        double[][][] image_t;
+        float[][][] image_t;
         image_t = ImportFile.getImage("train-images-idx3-ubyte");
 
         int[][] label_t_new = new int[10][label_t.length];
@@ -118,24 +299,18 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < 28; i++) {
-            for (int j = 0; j < 28; j++) {
-                System.out.println(image_t[j][i][0]);
-            }
-        }*/
-
 
         //parameters
-        double alpha = 1;
+        float alpha = 1;
         int batchsize = 50;
         int numepochs = 1;
         int learn_bias = 0;
-        double dropout = 0.0;
+        float dropout = 0.0f;
 
-        convnet = CNNtrain.CNNTrain(convnet,alpha,numepochs,batchsize,dropout,learn_bias,label_t_new,image_t,kk);
+        convnet = CNNtrain.CNNTrain(convnet,alpha,numepochs,batchsize,dropout,learn_bias,label_t_new,image_t);
 
 
-        /*double[] loss = new double[convnet.rL.length];
+        /*float[] loss = new float[convnet.rL.length];
         for (int i = 0; i < convnet.rL.length; i++) {
             loss[i]=convnet.rL[i];
         }
@@ -146,7 +321,7 @@ public class Main {
 
         /*int[] test_y;
         test_y = ImportFile.getLabel("t10k-labels-idx1-ubyte");
-        double[][][] test_x;
+        float[][][] test_x;
         test_x = ImportFile.getImage("t10k-images-idx3-ubyte");
 
         int[][] test_y_new = new int[10][test_y.length];
@@ -187,9 +362,9 @@ public class Main {
         }*/
 
 
-        double rate = CNNtest.CNNtest(convnet,test_x,test_y);
-        convnet.acc = rate;
-        System.out.println(rate);
+       /* double acc = CNNtest.CNNtest(convnet,test_x,test_y);
+        System.out.println(acc);*/
+
 
 /*        try
         {
@@ -268,14 +443,13 @@ public class Main {
             System.out.println("hahahaha"+i);
         }*/
 
+        convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000f,1.000f,0.001f,0.040f,0.001f,400);
 
-        //convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000,1.0,0.001f,0.020,0.001f,1000);
-
-        /*double[] loss_e = new double[e.rL.length];
+        /*float[] loss_e = new float[e.rL.length];
         for (int i = 0; i < e.rL.length; i++) {
             loss_e[i]=e.rL[i];
         }
-        double[] indx_e = new double[loss_e.length];
+        float[] indx_e = new float[loss_e.length];
         for (int i = 0; i < loss_e.length; i++) {
             indx_e[i] = i;
         }

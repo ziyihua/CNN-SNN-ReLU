@@ -31,7 +31,7 @@ public class ImportFile {
         return label_t;
     }
 
-    public static double[][][] getImage(String filename) throws IOException {
+    public static float[][][] getImage(String filename) throws IOException {
         DataInputStream images = new DataInputStream(new FileInputStream(filename));
 
         int magicNumber = images.readInt();
@@ -45,7 +45,7 @@ public class ImportFile {
         int numCols = images.readInt();
 
         int numImagesRead = 0;
-        double[][][] image_t = new double[28][28][numImages];
+        float[][][] image_t = new float[28][28][numImages];
         while (images.available() > 0 && numImagesRead < numImages) {
             for (int colIdx = 0; colIdx < numCols; colIdx++) {
                 for (int rowIdx = 0; rowIdx < numRows; rowIdx++) {

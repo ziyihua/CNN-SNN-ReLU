@@ -6,7 +6,7 @@ public class CNNtest extends Structure {
     public CNNtest(){
     }
 
-    public static double CNNtest(network convnet, double[][][]test_x, int[]test_y){
+    public static double CNNtest(network convnet, float[][][]test_x, int[]test_y){
 
         convnet = CNNff.CNNff(convnet,test_x);
         int[] output = new int[convnet.o[0].length];
@@ -28,7 +28,10 @@ public class CNNtest extends Structure {
                 correct++;
         }
 
-        return (double) correct/test_y.length;
+        System.out.println(correct);
+
+        return (double)correct/(double)test_y.length;
+
     }
 
 }

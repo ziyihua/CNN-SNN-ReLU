@@ -11,11 +11,11 @@ public class SetUp extends Structure{
     public SetUp(){
     }
 
-    public static network SetUp (String[][] architecture,double[][] k_m, double[][] f_m) {
-        //Random r = new Random(9);
+    public static network SetUp (String[][] architecture) {
+        Random r = new Random(9);
         network convnet = new network();
         int inputmap = 1;
-        double mapsize = 28;
+        float mapsize = 28;
         //add input layer
         LAYER inputlayer = new LAYER();
         convnet.layers.add(0, inputlayer);
@@ -42,13 +42,13 @@ public class SetUp extends Structure{
 
                 LAYER s_layer = convnet.layers.get(i);
 
-                mapsize = mapsize / (double) s_layer.scale;
+                mapsize = mapsize / (float) s_layer.scale;
                 if (Math.floor(mapsize) != mapsize) {
                     System.out.println("Layer" + i + " size must be integer; Actual size is " + mapsize);
                     throw new NumberFormatException();
                 }
 
-                convnet.layers.get(i).b = new double[inputmap];
+                convnet.layers.get(i).b = new float[inputmap];
                 for (int j = 0; j < inputmap; j++) {
                     convnet.layers.get(i).b[j] = 0;
                 }
@@ -61,27 +61,26 @@ public class SetUp extends Structure{
                 mapsize = mapsize - c_layer.kernelsize + 1;
 
                 //number of features
-                double fan_out = c_layer.outmaps * c_layer.kernelsize * c_layer.kernelsize;
+                float fan_out = c_layer.outmaps * c_layer.kernelsize * c_layer.kernelsize;
                 //generate random weights
                 int index_w = 0;
-                /*for (int j = 0; j < c_layer.outmaps; j++) {
-                    double fan_in = inputmap * c_layer.kernelsize * c_layer.kernelsize;
+                for (int j = 0; j < c_layer.outmaps; j++) {
+                    float fan_in = inputmap * c_layer.kernelsize * c_layer.kernelsize;
                     for (int l = 0; l < inputmap; l++) {
-                        double[][] m = new double[c_layer.kernelsize][c_layer.kernelsize];
+                        float[][] m = new float[c_layer.kernelsize][c_layer.kernelsize];
                         for (int y = 0; y < c_layer.kernelsize; y++) {
                             for (int z = 0; z < c_layer.kernelsize; z++) {
-                                //Random r = new Random();
-                                double randomValue = r.nextDouble();
-                                m[y][z] = ((double)(randomValue - 0.5)) * 2 * ((double)Math.sqrt(6.0 / (fan_in + fan_out)));
+                                float randomValue = r.nextFloat();
+                                m[y][z] = ((float)(randomValue - 0.5)) * 2 * ((float)Math.sqrt(6.0 / (fan_in + fan_out)));
                             }
                         }
                         c_layer.k.add(index_w,m);
                         index_w++;
                     }
-                }*/
-                for (int j = 0; j < inputmap; j++) {
+                }
+                /*for (int j = 0; j < inputmap; j++) {
                     for (int k = 0; k < c_layer.outmaps; k++) {
-                        double[][] m = new double[c_layer.kernelsize][c_layer.kernelsize];
+                        float[][] m = new float[c_layer.kernelsize][c_layer.kernelsize];
                         for (int y = 0; y < c_layer.kernelsize; y++) {
                             for (int z = 0; z < c_layer.kernelsize; z++) {
                                 m[y][z] = k_m[k_indx][z];
@@ -91,9 +90,9 @@ public class SetUp extends Structure{
                         c_layer.k.add(index_w,m);
                         index_w++;
                     }
-                }
+                }*/
 
-                convnet.layers.get(i).b = new double[c_layer.outmaps];
+                convnet.layers.get(i).b = new float[c_layer.outmaps];
                 for (int n = 0; n < c_layer.outmaps; n++) {
                     convnet.layers.get(i).b[n] = 0;
                 }
@@ -102,33 +101,32 @@ public class SetUp extends Structure{
             }
         }
         //number of output neuros at the last layer (just before the output layer)
-        double fvnum = mapsize*mapsize*inputmap;
+        float fvnum = mapsize*mapsize*inputmap;
         //number of labels
         int onum = 10;
 
         //biases of the output neurons
-        convnet.ffb = new double[onum];
+        convnet.ffb = new float[onum];
         for (int i = 0; i < onum; i++) {
-            convnet.ffb[i]=0.0;
+            convnet.ffb[i]=0.0f;
         }
 
 
 
         //weights between the last layer and the output neurons
-        convnet.ffW = new double[onum][(int) fvnum];
-        /*for (int i = 0; i < onum; i++) {
+        convnet.ffW = new float[onum][(int) fvnum];
+        for (int i = 0; i < onum; i++) {
             for (int j = 0; j < fvnum; j++) {
                 //Random r = new Random();
-                double randomValue = r.nextDouble();
-                convnet.ffW[i][j]=(double)(randomValue * Math.sqrt(6.0 / (onum + fvnum)));
-                //ffw[i][j]=randomValue* Math.sqrt(6.0 / (onum + fvnum));
+                float randomValue = r.nextFloat();
+                convnet.ffW[i][j]=(float)(randomValue * Math.sqrt(6.0 / (onum + fvnum)));
             }
-        }*/
-        for (int i = 0; i < onum; i++) {
+        }
+        /*for (int i = 0; i < onum; i++) {
             for (int j = 0; j < fvnum; j++) {
                 convnet.ffW[i][j]=f_m[i][j];
             }
-        }
+        }*/
 
         return convnet;
     }

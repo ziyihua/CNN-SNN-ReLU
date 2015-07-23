@@ -8,22 +8,22 @@ public class Normalize_CNN_data extends Structure {
     public Normalize_CNN_data(){
     }
 
-    public static network Normalize_CNN_data(network convnet, double[][][] train_x){
+    public static network Normalize_CNN_data(network convnet, float[][][] train_x){
 
         convnet = CNNff.CNNff(convnet,train_x);
 
-        double previous_factor = 1;
+        float previous_factor = 1;
 
-        convnet.factor_log = new double[convnet.layers.size()];
+        convnet.factor_log = new float[convnet.layers.size()];
         for (int i = 0; i < convnet.factor_log.length; i++) {
-           convnet.factor_log[i]= Double.NaN;
+           convnet.factor_log[i]= (float)Double.NaN;
         }
 
         for (int i = 1; i < convnet.layers.size(); i++) {
             if ("c".equals(convnet.layers.get(i).type)){
 
-                double max_weight = 0.0;
-                double max_activation = 0.0;
+                float max_weight = 0.0f;
+                float max_activation = 0.0f;
 
                 for (int j = 0; j < convnet.layers.get(i).k.size(); j++) {
                     for (int k = 0; k < convnet.layers.get(i).kernelsize; k++) {
@@ -47,18 +47,18 @@ public class Normalize_CNN_data extends Structure {
                     }
                 }
 
-                double scale_factor;
+                float scale_factor;
                 if (max_activation>max_weight){
                     scale_factor=max_activation;
                 }else {
                     scale_factor=max_weight;
                 }
 
-                double current_factor = scale_factor/previous_factor;
+                float current_factor = scale_factor/previous_factor;
 
 
                 for (int j = 0; j < convnet.layers.get(i).k.size(); j++) {
-                    double[][] new_k = new double[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
+                    float[][] new_k = new float[convnet.layers.get(i).kernelsize][convnet.layers.get(i).kernelsize];
                     for (int k = 0; k < convnet.layers.get(i).kernelsize; k++) {
                         for (int l = 0; l < convnet.layers.get(i).kernelsize; l++) {
                             new_k[k][l]=convnet.layers.get(i).k.get(j)[k][l]/current_factor;
