@@ -9,7 +9,7 @@ public class CNNtrain extends Structure {
     public CNNtrain(){
     }
 
-    public static network CNNTrain(String[][] architecture, network convnet, float alpha, int numepochs, int batchsize, float dropout, int learn_bias, int[][] label, float[][][]image){
+    public static network CNNTrain(network convnet, double alpha, int numepochs, int batchsize, double dropout, int learn_bias, int[][] label, double[][][]image, int[] kk){
         int m=label[0].length;
         int numbatches = m/batchsize;
         if (m % batchsize != 0){
@@ -17,10 +17,10 @@ public class CNNtrain extends Structure {
             throw new NumberFormatException();
         }
 
-        Random r = new Random(0);
+        //Random r = new Random(0);
 
         //array storing squared loss
-        convnet.rL = new float[numepochs*numbatches];
+        convnet.rL = new double[numepochs*numbatches];
         int loss_index=0;
         long[][] time = new long[2][numepochs];
 
@@ -34,11 +34,11 @@ public class CNNtrain extends Structure {
 
             long start = System.currentTimeMillis();
 
-            int[] kk = Permutation.RandomPermutation(m);
+            //int[] kk = Permutation.RandomPermutation(m);
 
             for (int j = 0; j < numbatches; j++) {
 
-                float[][][] batch_x = new float[image.length][image[0].length][batchsize];
+                double[][][] batch_x = new double[image.length][image[0].length][batchsize];
                 for (int k = 0; k <image.length ; k++) {
                     for (int l = 0; l < image[0].length ; l++) {
                         for (int n = 0; n < batchsize; n++) {
@@ -55,33 +55,33 @@ public class CNNtrain extends Structure {
                 }
 
                 //randomly disable input units with probability=dropout
-                for (int k = 1; k < convnet.layers.size(); k++) {
+                /*for (int k = 1; k < convnet.layers.size(); k++) {
                     if ("c".equals(architecture[0][k])){
                         int num_maps = convnet.layers.get(k).outmaps;
                         int[] indx = new int[num_maps];
                         for (int l = 0; l < indx.length; l++) {
                             //Random r = new Random();
                             double randomValue = r.nextDouble();
-                            if ((float)randomValue>dropout){
+                            if ((double)randomValue>dropout){
                                 indx[l]=1;
                             }else indx[l]=0;
                         }
                         convnet.layers.get(k).used_maps=indx;
                     }
-                }
+                }*/
 
 
-                convnet = CNNff.CNNff(architecture, convnet, batch_x);
+                convnet = CNNff.CNNff(convnet, batch_x);
 
-                convnet = CNNbp.CNNbp(architecture, convnet, batch_y);
+                convnet = CNNbp.CNNbp(convnet, batch_y);
 
-                convnet = CNNapplygrads.CNNapplygrads(architecture,convnet,alpha,learn_bias);
+                convnet = CNNapplygrads.CNNapplygrads(convnet,alpha,learn_bias);
 
                 if (loss_index==0){
                     convnet.rL[loss_index]=convnet.L;
                     loss_index++;
                 }else {
-                    convnet.rL[loss_index]=(float)(convnet.rL[loss_index-1]*0.99+convnet.L*0.01);
+                    convnet.rL[loss_index]=convnet.rL[loss_index-1]*0.99+convnet.L*0.01;
                     loss_index++;
                 }
             }
@@ -99,7 +99,7 @@ public class CNNtrain extends Structure {
 
         convnet.time=time;
 
-        for (int k = 1; k < convnet.layers.size(); k++) {
+        /*for (int k = 1; k < convnet.layers.size(); k++) {
             if ("c".equals(architecture[0][k])){
                 int num_maps = convnet.layers.get(k).outmaps;
                 int[] indx = new int[num_maps];
@@ -108,7 +108,7 @@ public class CNNtrain extends Structure {
                 }
                 convnet.layers.get(k).used_maps=indx;
             }
-        }
+        }*/
 
         return convnet;
 

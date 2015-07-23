@@ -6,13 +6,13 @@ public class Convolution extends Structure {
     public Convolution(){
     }
 
-    public static float singlePixelConvolution(float [][] input,
+    public static double singlePixelConvolution(double [][] input,
                                                 int x, int y,
-                                                float [][] k,
+                                                double [][] k,
                                                 int kernelWidth,
                                                 int kernelHeight){
 
-        float output = 0;
+        double output = 0;
         for(int i=0;i<kernelWidth;++i){
             for(int j=0;j<kernelHeight;++j){
                 output = output + (input[x+i][y+j] * k[i][j]);
@@ -21,13 +21,13 @@ public class Convolution extends Structure {
         return output;
     }
 
-    public static float singlePixelConvolution3D(float [][][] input,
+    public static double singlePixelConvolution3D(double [][][] input,
                                                   int x, int y,
-                                                  float [][][] k,
+                                                  double [][][] k,
                                                   int kernelWidth,
                                                   int kernelHeight,
                                                   int kernelDepth){
-        float output = 0;
+        double output = 0;
         for(int i=0;i<kernelWidth;++i){
             for(int j=0;j<kernelHeight;++j){
                 for (int l = 0; l < kernelDepth; l++) {
@@ -38,16 +38,16 @@ public class Convolution extends Structure {
         return output;
     }
 
-    public static float [][] convolution2D(float [][] input,
+    public static double [][] convolution2D(double [][] input,
                                             int width, int height,
-                                            float [][] kernel,
+                                            double [][] kernel,
                                             int kernelWidth,
                                             int kernelHeight){
 
         /**
          * flip kernel
          */
-        float[][] kernel_flipped = new float[kernelWidth][kernelHeight];
+        double[][] kernel_flipped = new double[kernelWidth][kernelHeight];
         for (int i = 0; i < kernelWidth; i++) {
             for (int j = 0; j < kernelHeight; j++) {
                 kernel_flipped[i][j]=kernel[kernelWidth-1-i][kernelHeight-1-j];
@@ -57,7 +57,7 @@ public class Convolution extends Structure {
 
         int smallWidth = width - kernelWidth + 1;
         int smallHeight = height - kernelHeight + 1;
-        float [][] output = new float [smallWidth][smallHeight];
+        double [][] output = new double [smallWidth][smallHeight];
         for(int i=0;i<smallWidth;++i){
             for(int j=0;j<smallHeight;++j){
                 output[i][j]=0;
@@ -73,16 +73,16 @@ public class Convolution extends Structure {
     }
 
 
-    public static float [][] convolution2D_full_wof(float [][] input,
+    public static double [][] convolution2D_full_wof(double [][] input,
                                                      int width, int height,
-                                                     float [][] kernel,
+                                                     double [][] kernel,
                                                      int kernelWidth,
                                                      int kernelHeight){
 
         /**
          * transform input
          */
-        float[][] input_new = new float[width+2*kernelWidth-2][height+2*kernelHeight-2];
+        double[][] input_new = new double[width+2*kernelWidth-2][height+2*kernelHeight-2];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 input_new[i][j]=0;
@@ -100,7 +100,7 @@ public class Convolution extends Structure {
 
         int smallWidth = width - kernelWidth + 1;
         int smallHeight = height - kernelHeight + 1;
-        float[][] output = new float[smallWidth][smallHeight];
+        double[][] output = new double[smallWidth][smallHeight];
         for(int i=0;i<smallWidth;++i){
             for(int j=0;j<smallHeight;++j){
                 output[i][j]=0;
@@ -116,12 +116,12 @@ public class Convolution extends Structure {
     }
 
 
-    public static float[][] convolution3D(float[][][] input, int width, int height, int depth, float[][][] kernel, int kernelWidth, int kernelHeight, int kernelDepth){
+    public static double[][] convolution3D(double[][][] input, int width, int height, int depth, double[][][] kernel, int kernelWidth, int kernelHeight, int kernelDepth){
         /**
          * input and kernel has the same third dimension
          */
-        float[][] output = new float[width-kernelWidth+1][height-kernelHeight+1];
-        float[][][] kernel_flipped = flip3D(kernel);
+        double[][] output = new double[width-kernelWidth+1][height-kernelHeight+1];
+        double[][][] kernel_flipped = flip3D(kernel);
 
         int smallWidth = width - kernelWidth + 1;
         int smallHeight = height - kernelHeight + 1;

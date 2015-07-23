@@ -8,22 +8,22 @@ public class CNNff extends Structure {
     public CNNff(){
     }
 
-    public static network CNNff(String[][] architecture, network convnet, float[][][] batch_x){
+    public static network CNNff(network convnet, double[][][] batch_x){
 
         int n = convnet.layers.size();
 
-        Random r = new Random(0);
+        //Random r = new Random(0);
         //randomly dropout some features of the input images
-        for (int i = 0; i < batch_x.length; i++) {
+        /*for (int i = 0; i < batch_x.length; i++) {
             for (int j = 0; j < batch_x[0].length; j++) {
                 for (int k = 0; k < batch_x[0][0].length; k++) {
                     //Random r = new Random();
                     double randomValue = r.nextDouble();
-                    if((float)randomValue<convnet.first_layer_dropout)
+                    if((double)randomValue<convnet.first_layer_dropout)
                         batch_x[i][j][k]=0;
                 }
             }
-        }
+        }*/
 
         if(convnet.layers.get(0).a.isEmpty()){
             convnet.layers.get(0).a.add(0,batch_x);
@@ -33,12 +33,14 @@ public class CNNff extends Structure {
 
 
         for (int i = 1; i < n; i++) {
-            if ("c".equals(architecture[0][i])){
+            if ("c".equals(convnet.layers.get(i).type)){
 
                 LAYER layer_previous = convnet.layers.get(i-1);
                 LAYER layer_current = convnet.layers.get(i);
 
-                layer_current.a.clear();
+                if (!layer_current.a.isEmpty()){
+                    layer_current.a.clear();
+                }
 
                 for (int j = 0; j < layer_current.outmaps; j++) {
                     //temporary output
@@ -48,17 +50,17 @@ public class CNNff extends Structure {
                     int a_new = a - layer_current.kernelsize + 1;
                     int b_new = b - layer_current.kernelsize + 1;
                     int c_new = c;
-                    float[][][] z = new float[a_new][b_new][c_new];
+                    double[][][] z = new double[a_new][b_new][c_new];
                     for (int k = 0; k < a_new; k++) {
                         for (int l = 0; l < b_new; l++) {
                             for (int m = 0; m < c_new; m++) {
-                                z[k][l][m] = 0.0f;
+                                z[k][l][m] = 0.0;
                             }
                         }
                     }
 
                     //used maps are convolved and applied ReLU, dropped out maps are assigned values zero
-                    if (layer_current.used_maps[j] == 1) {
+                    //if (layer_current.used_maps[j] == 1) {
                         //convolution
                         /**
                          * each input is convolved with an output-specific kernel and sum of all convolved inputs gives an output
@@ -66,13 +68,13 @@ public class CNNff extends Structure {
                         for (int k = 0; k < inputmaps; k++) {
                             //a matrix-wise 2D convolution along the 3rd dimension is used instead of 3D convolution
                             for (int l = 0; l < c_new; l++) {
-                                float[][] x_one = new float[a][b];
+                                double[][] x_one = new double[a][b];
                                 for (int m = 0; m < a; m++) {
                                     for (int o = 0; o < b; o++) {
                                         x_one[m][o] = layer_previous.a.get(k)[m][o][l];
                                     }
                                 }
-                                float[][] z_conv = Convolution.convolution2D(x_one, a, b, layer_current.k.get(j + k * layer_current.outmaps), layer_current.kernelsize, layer_current.kernelsize);
+                                double[][] z_conv = Convolution.convolution2D(x_one, a, b, layer_current.k.get(j + k * layer_current.outmaps), layer_current.kernelsize, layer_current.kernelsize);
                                 for (int m = 0; m < a_new; m++) {
                                     for (int o = 0; o < b_new; o++) {
                                         z[m][o][l] = z[m][o][l] + z_conv[m][o];
@@ -82,32 +84,34 @@ public class CNNff extends Structure {
 
                         }
                         //apply activation function ReLU
-                        float[][][] m = new float[a_new][b_new][c_new];
+                        double[][][] m = new double[a_new][b_new][c_new];
                         for (int k = 0; k < a_new; k++) {
                             for (int l = 0; l < b_new; l++) {
                                 for (int o = 0; o < c_new; o++) {
                                     if (z[k][l][o]+layer_current.b[j]>0.0) {
                                         m[k][l][o] = z[k][l][o] + layer_current.b[j];
                                     } else {
-                                        m[k][l][o] = 0.0f;
+                                        m[k][l][o] = 0.0;
                                     }
                                 }
                             }
                         }
                         layer_current.a.add(j,m);
-                    } else {
-                        layer_current.a.add(j,z);
+                    //} else {
+                    //    layer_current.a.add(j,z);
                     }
-                }
+               // }
                 //number of inputs to the new layer is outmaps of this layer
                 inputmaps=layer_current.outmaps;
             }
-            else if ("s".equals(architecture[0][i])){
+            else if ("s".equals(convnet.layers.get(i).type)){
 
                 LAYER layer_previous = convnet.layers.get(i-1);
                 LAYER layer_current = convnet.layers.get(i);
 
-                layer_current.a.clear();
+                if (!layer_current.a.isEmpty()){
+                    layer_current.a.clear();
+                }
 
                 int a = layer_previous.a.get(0).length;
                 int b = layer_previous.a.get(0)[0].length;
@@ -115,25 +119,25 @@ public class CNNff extends Structure {
                 int a_new = a-layer_current.scale+1;
                 int b_new = b-layer_current.scale+1;
 
-                float[][] subsample = new float[layer_current.scale][layer_current.scale];
+                double[][] subsample = new double[layer_current.scale][layer_current.scale];
                 for (int j = 0; j < layer_current.scale; j++) {
                     for (int k = 0; k < layer_current.scale; k++) {
-                        subsample[j][k]=(float) 1/(layer_current.scale*layer_current.scale);
+                        subsample[j][k]=(double) 1/(layer_current.scale*layer_current.scale);
                     }
                 }
 
                 //subsampling is carried as convolution with constant kernel
                 for (int j = 0; j < inputmaps; j++) {
-                    float[][][] z = new float[a_new][b_new][c];
+                    double[][][] z = new double[a_new][b_new][c];
                     //matrix-wise 2D convolution
                     for (int k = 0; k < c; k++) {
-                        float[][] a_one = new float[a][b];
+                        double[][] a_one = new double[a][b];
                         for (int m = 0; m < a; m++) {
                             for (int o = 0; o < b ; o++) {
                                 a_one[m][o] = layer_previous.a.get(j)[m][o][k];
                             }
                         }
-                        float[][] a_conv=Convolution.convolution2D(a_one,a,b,subsample,layer_current.scale,layer_current.scale);
+                        double[][] a_conv=Convolution.convolution2D(a_one,a,b,subsample,layer_current.scale,layer_current.scale);
                         for (int l = 0; l < a_new; l++) {
                             for (int m = 0; m < b_new; m++) {
                                 z[l][m][k] = a_conv[l][m];
@@ -141,7 +145,7 @@ public class CNNff extends Structure {
                         }
                     }
                     //get only one row and column in each two, resulting in reducing the size to its half
-                    float[][][] m = new float[a/layer_current.scale][b/layer_current.scale][c];
+                    double[][][] m = new double[a/layer_current.scale][b/layer_current.scale][c];
                     for (int k = 0; k < a/layer_current.scale; k++) {
                         for (int l = 0; l < b/layer_current.scale; l++) {
                             for (int o = 0; o < c; o++) {
@@ -162,7 +166,7 @@ public class CNNff extends Structure {
         int b = layer_current.a.get(0)[0].length;
         int c = layer_current.a.get(0)[0][0].length;
         int outputmaps = layer_current.a.size();
-        convnet.fv= new float[a*b*outputmaps][c];
+        convnet.fv= new double[a*b*outputmaps][c];
         for (int i = 0; i < c; i++) {
             int row = 0;
             for (int j = 0; j < outputmaps; j++) {
@@ -180,7 +184,7 @@ public class CNNff extends Structure {
         //ffw*fv
         int d = convnet.ffW.length;
         int e = convnet.fv.length;
-        float[][] product = new float[d][c];
+        double[][] product = new double[d][c];
         for (int i = 0; i < d; i++) {
             for (int j = 0; j < c; j++) {
                 product[i][j]=0;
@@ -195,12 +199,12 @@ public class CNNff extends Structure {
         }
 
         //apply activation function ReLU
-        convnet.o = new float[d][c];
+        convnet.o = new double[d][c];
         for (int i = 0; i < d; i++) {
             for (int j = 0; j < c; j++) {
                 if(product[i][j]>0.0)
                     convnet.o[i][j]=product[i][j];
-                else convnet.o[i][j]=0.0f;
+                else convnet.o[i][j]=0.0;
             }
         }
 
