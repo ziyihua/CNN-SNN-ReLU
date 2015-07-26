@@ -1,3 +1,4 @@
+import ec.util.MersenneTwister;
 import org.math.plot.utils.Array;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ public class Convlifsim extends Structure {
         int num_examples = test_x[0][0].length;
         int num_classes = test_y_new.length;
 
-        Random r = new Random(100);
+        Random r = new Random(9);
+        //MersenneTwister r = new MersenneTwister(0);
 
         float[] accuracy = new float[(int)(duration/dt)];
         int acc_indx = 0;
@@ -46,8 +48,9 @@ public class Convlifsim extends Structure {
                 convnet.layers.get(i).m.add(j,correctly_sized_zeros);
                 convnet.layers.get(i).r.add(j,correctly_sized_zeros);
                 convnet.layers.get(i).s.add(j,correctly_sized_zeros_int);
-                convnet.layers.get(i).sp.add(j,correctly_sized_zeros_int);
+                convnet.layers.get(i).sp.add(j, correctly_sized_zeros_int);
             }
+            convnet.layers.get(i).a.clear();
         }
 
         convnet.sum_fv = new float[convnet.ffW[0].length][num_examples];
@@ -84,12 +87,12 @@ public class Convlifsim extends Structure {
             //create Poisson distributed spikes form the input images (for all images in parallel)
             float rescale_fac = 1/(dt*max_rate);
             float[][][] spike_snapshot = new float[test_x.length][test_x[0].length][test_x[0][0].length];
-            for (int j = 0; j < spike_snapshot.length; j++) {
+            for (int j = 0; j < spike_snapshot[0][0].length; j++) {
                 for (int k = 0; k < spike_snapshot[0].length; k++) {
-                    for (int l = 0; l < spike_snapshot[0][0].length; l++) {
+                    for (int l = 0; l < spike_snapshot.length; l++) {
                         float RandomValue = r.nextFloat();
-                        spike_snapshot[j][k][l]= RandomValue * rescale_fac;
-                        //spike_snapshot[j][k][l]=ss[j][k][l+index*500]*rescale_fac;
+                        //float RandomValue = (float) r.nextDouble();
+                        spike_snapshot[l][k][j]= RandomValue * rescale_fac;
                     }
                 }
             }
@@ -106,9 +109,7 @@ public class Convlifsim extends Structure {
                 }
             }
 
-            if(convnet.layers.get(0).sp.isEmpty()){
-                convnet.layers.get(0).sp.add(0,inp_image);
-            }else convnet.layers.get(0).sp.set(0,inp_image);
+            convnet.layers.get(0).sp.set(0,inp_image);
 
 
             float[][][] mem_i_m = new float[inp_image.length][inp_image[0].length][inp_image[0][0].length];
@@ -168,7 +169,7 @@ public class Convlifsim extends Structure {
                                 float[][] s_one = new float[a][b];
                                 for (int m = 0; m < a; m++) {
                                     for (int n = 0; n < b; n++) {
-                                        s_one[m][n] = convnet.layers.get(j - 1).s.get(k)[m][n][l];
+                                        s_one[m][n] = convnet.layers.get(j - 1).sp.get(k)[m][n][l];
                                     }
                                 }
                                 float[][] z_conv = Convolution.convolution2D(s_one, s_one.length, s_one[0].length, convnet.layers.get(j).k.get(k * convnet.layers.get(j).outmaps + o), convnet.layers.get(j).kernelsize, convnet.layers.get(j).kernelsize);
@@ -284,7 +285,7 @@ public class Convlifsim extends Structure {
                             float[][] s_one = new float[a][b];
                             for (int m = 0; m < a; m++) {
                                 for (int n = 0; n < b; n++) {
-                                    s_one[m][n]= layer_previous.s.get(k)[m][n][l];
+                                    s_one[m][n]= layer_previous.sp.get(k)[m][n][l];
                                 }
                             }
                             float[][] z_conv = Convolution.convolution2D(s_one,a,b,subsample,layer_current.scale,layer_current.scale);
@@ -484,6 +485,7 @@ public class Convlifsim extends Structure {
                     convnet.o_sum_spikes[j][k] = convnet.o_sum_spikes[j][k]+convnet.o_spikes[j][k];
                 }
             }
+
 
             //tell the user what is going on
             if ((((Math.round(i/dt)) % (Math.round(report_every/dt)))==0) && ((i/dt) > 0)){

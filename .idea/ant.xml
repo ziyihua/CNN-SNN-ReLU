@@ -2,7 +2,7 @@
 <project version="4">
   <component name="AntConfiguration">
     <buildFile url="file://$APPLICATION_HOME_DIR$/bin/log.xml">
-      <maximumHeapSize value="1024" />
+      <maximumHeapSize value="4096" />
     </buildFile>
   </component>
 </project>

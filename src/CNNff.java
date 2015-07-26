@@ -88,8 +88,8 @@ public class CNNff extends Structure {
                         for (int k = 0; k < a_new; k++) {
                             for (int l = 0; l < b_new; l++) {
                                 for (int o = 0; o < c_new; o++) {
-                                    if (z[k][l][o]+layer_current.b[j]>0.0) {
-                                        m[k][l][o] = z[k][l][o] + layer_current.b[j];
+                                    if (z[k][l][o]/*+layer_current.b[j]*/>0.0f) {
+                                        m[k][l][o] = z[k][l][o]/* + layer_current.b[j]*/;
                                     } else {
                                         m[k][l][o] = 0.0f;
                                     }

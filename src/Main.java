@@ -5,6 +5,7 @@ import org.math.plot.Plot2DPanel;
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import java.io.*;
+import ec.util.MersenneTwister;
 
 /**
  * Created by ziyihua on 17/07/15.
@@ -19,18 +20,6 @@ public class Main {
             convnet.layers.add(i,layer);
         }
 
-        MatFileReader s = new MatFileReader("ss.mat");
-        double[][] ss_m = ((MLDouble) s.getMLArray("ss")).getArray();
-        float[][][] ss = new float[28][28][10000];
-        for (int i = 0; i < 10000; i++) {
-            int row=0;
-            for (int j = 0; j < 28; j++) {
-                for (int k = 0; k < 28; k++) {
-                    ss[k][j][i]=(float)ss_m[row][i];
-                    row++;
-                }
-            }
-        }
 
 
         MatFileReader m = new MatFileReader("cnn.mat");
@@ -60,7 +49,7 @@ public class Main {
         //layer1
         MLStructure layer1 = (MLStructure) layers.get(1);
         MLCell layer1_a = (MLCell)layer1.getField("a");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             double[][] layer1_a_m_d = ((MLDouble) layer1_a.get(i)).getArray();
             float[][][] layer1_a_m = new float[24][24][50];
             for (int j = 0; j < 50; j++) {
@@ -75,7 +64,7 @@ public class Main {
         //layer2
         MLStructure layer2 = (MLStructure) layers.get(2);
         MLCell layer2_a = (MLCell)layer2.getField("a");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             double[][] layer2_a_m_d = ((MLDouble) layer2_a.get(i)).getArray();
             float[][][] layer2_a_m = new float[12][12][50];
             for (int j = 0; j < 50; j++) {
@@ -90,7 +79,7 @@ public class Main {
         //layer3
         MLStructure layer3 = (MLStructure) layers.get(3);
         MLCell layer3_a = (MLCell)layer3.getField("a");
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 64; i++) {
             double[][] layer3_a_m_d = ((MLDouble) layer3_a.get(i)).getArray();
             float[][][] layer3_a_m = new float[8][8][50];
             for (int j = 0; j < 50; j++) {
@@ -105,7 +94,7 @@ public class Main {
         //layer4
         MLStructure layer4 = (MLStructure) layers.get(4);
         MLCell layer4_a = (MLCell)layer3.getField("a");
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 64; i++) {
             double[][] layer4_a_m_d = ((MLDouble) layer4_a.get(i)).getArray();
             float[][][] layer4_a_m = new float[4][4][50];
             for (int j = 0; j < 50; j++) {
@@ -122,7 +111,7 @@ public class Main {
         //layer1
         MLCell layer1_k = (MLCell) layer1.getField("k");
         MLCell layer1_k_k = (MLCell) layer1_k.get(0);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             double[][] layer1_k_m_d = ((MLDouble)layer1_k_k.get(i)).getArray();
             float[][] layer1_k_m = new float[5][5];
             for (int j = 0; j < 5; j++) {
@@ -133,12 +122,12 @@ public class Main {
             convnet.layers.get(1).k.add(i,layer1_k_m);
         }
         convnet.layers.get(1).kernelsize=5;
-        convnet.layers.get(1).outmaps=6;
+        convnet.layers.get(1).outmaps=12;
         //layer3
         MLCell layer3_k = (MLCell) layer3.getField("k");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             MLCell layer3_k_k = (MLCell) layer3_k.get(i);
-            for (int j = 0; j < 12; j++) {
+            for (int j = 0; j < 64; j++) {
                 double[][] layer3_k_m_d = ((MLDouble)layer3_k_k.get(j)).getArray();
                 float[][] layer3_k_m = new float[5][5];
                 for (int k = 0; k < 5; k++) {
@@ -146,11 +135,11 @@ public class Main {
                         layer3_k_m[l][k]=(float)layer3_k_m_d[l][k];
                     }
                 }
-                convnet.layers.get(3).k.add(i*12+j,layer3_k_m);
+                convnet.layers.get(3).k.add(i*64+j,layer3_k_m);
             }
         }
         convnet.layers.get(3).kernelsize=5;
-        convnet.layers.get(3).outmaps=12;
+        convnet.layers.get(3).outmaps=64;
 
         //scale
         convnet.layers.get(2).scale=2;
@@ -159,7 +148,7 @@ public class Main {
         //ffW
         MLArray ffW = cnn.getField("ffW");
         double[][] ffW_m = ((MLDouble) ffW).getArray();
-        convnet.ffW=new float[10][192];
+        convnet.ffW=new float[10][1024];
         for (int i = 0; i < ffW_m.length; i++) {
             for (int j = 0; j < ffW_m[0].length; j++) {
                 convnet.ffW[i][j]=(float)ffW_m[i][j];
@@ -169,14 +158,14 @@ public class Main {
         //fv
         MLArray fv = cnn.getField("fv");
         double[][] fv_m = ((MLDouble) fv).getArray();
-        convnet.fv=new float[192][50];
+        convnet.fv=new float[1024][50];
         for (int i = 0; i < fv_m.length; i++) {
             for (int j = 0; j < fv_m[0].length; j++) {
                 convnet.fv[i][j]=(float)fv_m[i][j];
             }
         }
 
-
+        convnet.first_layer_dropout=0.0f;
 
 
 
@@ -199,7 +188,7 @@ public class Main {
             }
         }*/
 
-        /*MatFileReader m3 = new MatFileReader("train_x.mat");
+        MatFileReader m3 = new MatFileReader("train_x.mat");
         double[][] train_x = ((MLDouble) m3.getMLArray("train_x")).getArray();
         float[][][] image_t=new float[28][28][60000] ;
         for (int i = 0; i < 60000; i++) {
@@ -212,7 +201,7 @@ public class Main {
             }
         }
 
-        MatFileReader m4 = new MatFileReader("train_y.mat");
+/*        MatFileReader m4 = new MatFileReader("train_y.mat");
         double[][] train_y = ((MLDouble) m4.getMLArray("train_y")).getArray();
         int[][] label_t_new = new int[10][60000];
         for (int i = 0; i < 10; i++) {
@@ -262,7 +251,7 @@ public class Main {
 
         //Layers of CNN
         //row 0 is type
-        /*String[][] architecture = new String[3][5];
+/*        String[][] architecture = new String[3][5];
         architecture[0][0] = "i";
         architecture[0][1] = "c";
         architecture[0][2] = "s";
@@ -319,7 +308,7 @@ public class Main {
             indx[i] = i;
         }*/
 
-        /*int[] test_y;
+/*        int[] test_y;
         test_y = ImportFile.getLabel("t10k-labels-idx1-ubyte");
         float[][][] test_x;
         test_x = ImportFile.getImage("t10k-images-idx3-ubyte");
@@ -333,8 +322,8 @@ public class Main {
                     test_y_new[j][i]=0;
                 }
             }
-        }*/
-
+        }
+*/
         /*System.out.println("1st layer");
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
@@ -362,9 +351,9 @@ public class Main {
         }*/
 
 
-       /* double acc = CNNtest.CNNtest(convnet,test_x,test_y);
-        System.out.println(acc);*/
-
+/*        double acc = CNNtest.CNNtest(convnet,test_x,test_y);
+        System.out.println(acc);
+*/
 
 /*        try
         {
@@ -443,7 +432,20 @@ public class Main {
             System.out.println("hahahaha"+i);
         }*/
 
-        convnet = Convlifsim.Convlifsim(convnet,test_x,test_y_new,test_y,0.000f,1.000f,0.001f,0.040f,0.001f,400);
+        for (int k = 1; k < convnet.layers.size(); k++) {
+            if ("c".equals(convnet.layers.get(k).type)){
+                int num_maps = convnet.layers.get(k).outmaps;
+                int[] indx = new int[num_maps];
+                for (int l = 0; l < indx.length; l++) {
+                    indx[l]=1;
+                }
+                convnet.layers.get(k).used_maps=indx;
+            }
+        }
+
+        //convnet = Normalize_CNN_data.Normalize_CNN_data(convnet, image_t);
+        //System.out.println("Normalization done");
+        convnet = Convlifsim.Convlifsim(convnet, test_x, test_y_new, test_y, 0.000f, 1.000f, 0.001f, 0.020f, 0.001f, 400);
 
         /*float[] loss_e = new float[e.rL.length];
         for (int i = 0; i < e.rL.length; i++) {

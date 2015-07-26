@@ -69,6 +69,7 @@ public class Normalize_CNN_data extends Structure {
                 convnet.factor_log[i]=1/current_factor;
                 previous_factor=current_factor;
             }
+            System.out.println(convnet.factor_log[i]);
         }
         return convnet;
     }
